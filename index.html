@@ -98,17 +98,29 @@
   </section>
 
   <section class="sec card" id="pack">
-    <div class="wrap" style="text-align:center">
-      <div class="kicker">the pack · <b>we're in this together</b></div>
-      <h2 style="margin-top:14px">you'll never<br>sit alone.</h2>
-      <p class="pack-lede">nobody here is on their own. every collar on the timeline is one of us. red week, green week, rent week: we sit through it together. see one, say <b>stay.</b> they'll say it back.</p>
-      <svg class="pack-dogs" id="pack-svg" viewBox="0 0 1200 300" role="img" aria-label="nine dogs in different coats, all sitting in a row. tap one and it wags."></svg>
-      <p class="pen" style="margin:8px 0 0;font-size:30px">tap one. they wag.</p>
-      <div class="pack-tags">
-        <a class="tag" href="kennel.html#pfp">wear the collar <span class="arr">→</span></a>
-        <a class="tag paper" href="kennel.html#roll-call">come to roll call</a>
-        <button class="tag brass" type="button" data-say="stay.">say stay. on x</button>
+    <div class="wrap">
+      <div class="together">
+        <div>
+          <div class="kicker">the pack · <b>we're in this together</b></div>
+          <h2 style="margin:14px 0 16px">you'll never<br>sit alone.</h2>
+          <p style="max-width:50ch">nobody here is on their own. every collar on the timeline is one of us. red week, green week, rent week: we sit through it together. see one, say <b>stay.</b> they'll say it back.</p>
+          <div class="tags">
+            <a class="tag" href="kennel.html#pfp">wear the collar <span class="arr">→</span></a>
+            <button class="tag brass" type="button" data-say="stay.">say stay. on x</button>
+          </div>
+        </div>
+        <div class="roll-card" id="roll-call">
+          <div class="kicker">roll call · 18:00 utc · ten minutes</div>
+          <div class="clock" data-roll-clock>--:--:--</div>
+          <p class="small" style="margin:6px 0 14px">everyone posts <b>stay.</b> at once. that's <span data-roll-local>18:00 utc</span>.</p>
+          <div class="tags">
+            <button class="tag red" type="button" data-say="stay.">post "stay."</button>
+            <button class="tag paper" type="button" data-ics>add to calendar</button>
+          </div>
+        </div>
       </div>
+      <svg class="pack-dogs" id="pack-svg" viewBox="0 0 1200 300" role="img" aria-label="nine dogs in different coats, all sitting in a row. tap one and it wags."></svg>
+      <p class="pen" style="margin:6px 0 0;font-size:28px;text-align:center">tap one. they wag.</p>
     </div>
   </section>
 
@@ -116,40 +128,17 @@
     <div class="wrap">
       <div class="sec-head">
         <div><div class="num">fresh off the noticeboard</div><h2 style="margin-top:12px">the wall.</h2></div>
-        <p style="margin:0">memes, gifs and clips of a dog not moving. pinned up for you to repost. clips play when you press play.</p>
+        <p style="margin:0">memes, gifs and clips of a dog not moving. scroll it sideways. clips play when you press play.</p>
       </div>
-      <div class="board" data-wall data-limit="9" data-feature></div>
+      <div class="strip-wrap">
+        <div class="board strip" id="home-strip" data-wall></div>
+        <div class="strip-nav"><button class="tag paper" type="button" data-strip="-1" aria-label="scroll the wall left">← back</button><button class="tag paper" type="button" data-strip="1" aria-label="scroll the wall right">more →</button></div>
+      </div>
       <div class="board-links">
         <a class="tag" href="wall.html">the whole wall <span class="arr">→</span></a>
         <a class="tag paper" href="wall.html?kind=meme">all the memes</a>
         <a class="tag paper" href="wall.html?kind=clip">all the clips</a>
         <a class="tag paper" href="wall.html?kind=gif">all the gifs</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec ink" id="roll-call">
-    <div class="wrap roll">
-      <div>
-        <div class="kicker">every day · 18:00 utc · ten minutes</div>
-        <h2 style="margin:14px 0 18px">roll call.</h2>
-        <p style="max-width:46ch">ten minutes where everyone posts <b>stay.</b> at the same time. that's <span data-roll-local>18:00 utc</span>. it goes in your calendar once and repeats.</p>
-        <div class="kicker" style="margin-top:26px">next roll call in</div>
-        <div class="clock" data-roll-clock>--:--:--</div>
-        <div class="tags" style="margin-top:22px">
-          <button class="tag brass" type="button" data-say="stay.">post "stay." on x</button>
-          <button class="tag paper" type="button" data-ics>add to calendar</button>
-        </div>
-      </div>
-      <div class="roll-sheet">
-        <div class="kicker" style="color:var(--ink-2);margin-bottom:8px">the agenda</div>
-        <ol>
-          <li><b>:00</b><span>stay.</span></li>
-          <li><b>:01</b><span>stay.</span></li>
-          <li><b>:02–:09</b><span>stay. reply stay. to every stay.</span></li>
-          <li><b>:10</b><span>good. you may carry on.</span></li>
-        </ol>
-        <p class="pen" style="margin:14px 0 0;font-size:28px">minutes of the last meeting: stay.</p>
       </div>
     </div>
   </section>

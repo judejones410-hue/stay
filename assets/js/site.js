@@ -28,6 +28,9 @@
       </ul></nav>`;
   }
 
+  const cur = head && head.querySelector('[aria-current="page"]');
+  if (cur) cur.scrollIntoView({ block: 'nearest', inline: 'center' });
+
   const foot = document.querySelector('[data-footer]');
   if (foot) {
     foot.className = 'foot';

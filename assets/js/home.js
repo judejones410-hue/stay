@@ -25,6 +25,13 @@
     }));
   }
 
+  /* sideways wall: arrow buttons scroll one panel at a time */
+  document.querySelectorAll('[data-strip]').forEach((b) => b.addEventListener('click', () => {
+    const strip = document.getElementById('home-strip');
+    const step = (strip.querySelector('.pin:not(.big)') || strip).offsetWidth + 24;
+    strip.scrollBy({ left: step * Number(b.dataset.strip), behavior: 'smooth' });
+  }));
+
   /* room illustrations, 300 × 200 */
   const art = {
     wall: () => ['fetch', 'rollcall', 'rain'].map((k, i) => `<g transform="rotate(${[-4, 2, -2][i]} ${55 + i * 96} 100)">

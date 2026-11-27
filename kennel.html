@@ -34,7 +34,18 @@
     </div>
   </section>
 
-  <section class="sec ink">
+  <nav class="tabbar" aria-label="kennel club sections">
+    <div class="wrap" role="tablist">
+      <button type="button" role="tab" data-tab="rules"><small>01</small>house rules</button>
+      <button type="button" role="tab" data-tab="the-command"><small>02</small>the sit</button>
+      <button type="button" role="tab" data-tab="pfp"><small>03</small>the collar</button>
+      <button type="button" role="tab" data-tab="papers"><small>04</small>your papers</button>
+      <button type="button" role="tab" data-tab="roll-call"><small>05</small>roll call</button>
+      <button type="button" role="tab" data-tab="replies"><small>06</small>what to say</button>
+    </div>
+  </nav>
+
+  <section class="sec ink tabpanel" id="rules">
     <div class="wrap two">
       <div>
         <div class="kicker">01 / the house rules</div>
@@ -52,7 +63,7 @@
     </div>
   </section>
 
-  <section class="sec" id="the-command">
+  <section class="sec tabpanel" id="the-command">
     <div class="wrap two">
       <div>
         <div class="kicker">02 / the command</div>
@@ -74,7 +85,7 @@
     </div>
   </section>
 
-  <section class="sec card" id="pfp">
+  <section class="sec card tabpanel" id="pfp">
     <div class="wrap">
       <div class="sec-head">
         <div><div class="num">03 / initiation</div><h2 style="margin-top:12px">wear the collar.</h2></div>
@@ -87,7 +98,7 @@
     </div>
   </section>
 
-  <section class="sec" id="papers">
+  <section class="sec tabpanel" id="papers">
     <div class="wrap">
       <div class="sec-head">
         <div><div class="num">04 / honor system</div><h2 style="margin-top:12px">your papers.</h2></div>
@@ -118,7 +129,7 @@
     </div>
   </section>
 
-  <section class="sec ink" id="roll-call">
+  <section class="sec ink tabpanel" id="roll-call">
     <div class="wrap roll">
       <div>
         <div class="kicker">05 / every day, same time</div>
@@ -143,7 +154,7 @@
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec tabpanel" id="replies">
     <div class="wrap two">
       <div>
         <div class="kicker">06 / greeting rules</div>
@@ -184,5 +195,23 @@
 <script src="assets/js/dog.js"></script>
 <script src="assets/js/site.js"></script>
 <script src="assets/js/kennel.js"></script>
+<script>
+  /* one room at a time, so nobody scrolls for days. links like kennel.html#papers open that tab. */
+  (function () {
+    const tabs = document.querySelectorAll('.tabbar [data-tab]');
+    const panels = document.querySelectorAll('.tabpanel');
+    function open(id, scroll) {
+      if (![...panels].some((p) => p.id === id)) id = 'rules';
+      panels.forEach((p) => { p.hidden = p.id !== id; });
+      tabs.forEach((t) => t.setAttribute('aria-selected', t.dataset.tab === id));
+      const t = document.querySelector(`.tabbar [data-tab="${id}"]`);
+      if (t) t.scrollIntoView({ block: 'nearest', inline: 'center' });
+      if (scroll) document.querySelector('.tabbar').scrollIntoView({ behavior: 'smooth' });
+    }
+    tabs.forEach((t) => t.addEventListener('click', () => { history.replaceState(null, '', '#' + t.dataset.tab); open(t.dataset.tab, true); }));
+    addEventListener('hashchange', () => open(location.hash.slice(1), true));
+    open(location.hash.slice(1), !!location.hash);
+  })();
+</script>
 </body>
 </html>
