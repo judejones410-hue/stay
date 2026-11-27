@@ -18,7 +18,10 @@
     const y = H * (.12 + Math.random() * .5);
     const ew = el.offsetWidth;
     const x0 = fromLeft ? -ew - 20 : W + 20;
-    const x1 = fromLeft ? W * .5 - 150 - ew * .4 : W * .5 + 150 - ew * .6;
+    // stop just short of the dog, wherever he's sitting at this width
+    const sr = stage.getBoundingClientRect(), dr = stage.querySelector('.dog').getBoundingClientRect();
+    const gap = 8 + dr.width * .1; // the svg has a little air around him
+    const x1 = fromLeft ? dr.left - sr.left + gap - ew : dr.right - sr.left - gap;
     const rot = (Math.random() * 10 - 5);
     el.style.left = '0px'; el.style.top = y + 'px';
     const fall = H - 46 - y;
