@@ -1,6 +1,6 @@
-/* the soundtrack, synthesised so there's nothing to license: a little ukulele-ish strum,
-   a thud for every command, a record scratch, silence, one soft woof, then the tune comes back.
-   window.makeSound({ music, woof }) resolves to a base64 wav. */
+/* the sound kit, all synthesised so there's nothing to license: a little ukulele-ish strum,
+   thuds, a record scratch, ticks, a bell, soft woofs. each video page sets window.SCORE(kit, opts)
+   to arrange them on its own timeline. window.makeSound({ music, woof }) resolves to a base64 wav. */
 (function () {
   const RATE = 44100;
   const N = { C3: 130.81, F2: 87.31, G2: 98, A2: 110, C4: 261.63, E4: 329.63, F4: 349.23, G4: 392, A4: 440, B4: 493.88, C5: 523.25, D4: 293.66 };
@@ -83,7 +83,7 @@
       bp.connect(g); g.connect(sfx); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.35, t + dur * .4); g.gain.linearRampToValueAtTime(0, t + dur);
       noiseAt(t, dur, bp);
     }
-    function bark(t) {
+    function bark(t, pitch = 1, level = 1) {
       // a soft, low "woof": a falling buzz through two mouth-shaped filters
       const src = ctx.createGain(), lp = ctx.createBiquadFilter(), out = ctx.createGain();
       lp.type = 'lowpass'; lp.frequency.value = 1500; lp.Q.value = .8;
@@ -94,29 +94,32 @@
       });
       [0, 7].forEach((det) => {
         const o = ctx.createOscillator(); o.type = 'sawtooth'; o.detune.value = det;
-        o.frequency.setValueAtTime(200, t); o.frequency.linearRampToValueAtTime(285, t + .045); o.frequency.exponentialRampToValueAtTime(140, t + .26);
+        o.frequency.setValueAtTime(200 * pitch, t); o.frequency.linearRampToValueAtTime(285 * pitch, t + .045); o.frequency.exponentialRampToValueAtTime(140 * pitch, t + .26);
         o.connect(src); o.start(t); o.stop(t + .4);
       });
       const breath = ctx.createGain(); breath.gain.value = .35; breath.connect(src); noiseAt(t, .3, breath);
       out.connect(sfx);
-      out.gain.setValueAtTime(0, t); out.gain.linearRampToValueAtTime(.42, t + .018); out.gain.setValueAtTime(.42, t + .07); out.gain.exponentialRampToValueAtTime(.0001, t + .3);
+      out.gain.setValueAtTime(0, t); out.gain.linearRampToValueAtTime(.42 * level, t + .018); out.gain.setValueAtTime(.42 * level, t + .07); out.gain.exponentialRampToValueAtTime(.0001, t + .3);
     }
 
-    if (music) {
-      bus.gain.setValueAtTime(.9, 0);
-      play(0, cues.fall + .02, 1, (b0) => b0 >= 4);
-      bus.gain.setValueAtTime(.9, cues.fall); bus.gain.linearRampToValueAtTime(0, cues.fall + .05);
-      bus.gain.setValueAtTime(0, cues.end + .1); bus.gain.linearRampToValueAtTime(.75, cues.end + .2);
-      bus.gain.setValueAtTime(.75, cues.dur - 1); bus.gain.linearRampToValueAtTime(0, cues.dur - .05);
-      play(cues.end + .15, cues.dur, .85, () => false);
+    function tick(t, peak = .5) {
+      // a wood-block tick for clocks
+      const bp = ctx.createBiquadFilter(), g = ctx.createGain(); bp.type = 'bandpass'; bp.frequency.value = 2400; bp.Q.value = 8;
+      bp.connect(g); g.connect(sfx); env(g, t, peak * 3, .001, .05); noiseAt(t, .06, bp);
     }
-    cues.slams.forEach((t) => thud(t));
-    scratch(cues.fall);
-    whoosh(cues.fall + .1, .9);
-    thud(cues.fall + .95, .35); // the pile lands somewhere off screen
-    thud(8.7, 1); // he stays.
-    if (woof) bark(cues.woof);
-    thud(cues.end + .05, .8);
+    function bell(t, f = 1320, peak = .5) {
+      [[1, 1], [2.76, .4], [5.4, .15]].forEach(([m, v]) => {
+        const o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = f * m;
+        o.connect(g); g.connect(sfx); env(g, t, peak * v, .003, 1.4 / m); o.start(t); o.stop(t + 1.6);
+      });
+    }
+    function blip(t, f, peak = .25) {
+      const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'triangle';
+      o.frequency.setValueAtTime(f * .8, t); o.frequency.exponentialRampToValueAtTime(f, t + .03);
+      o.connect(g); g.connect(sfx); env(g, t, peak, .004, .16); o.start(t); o.stop(t + .25);
+    }
+
+    await window.SCORE({ ctx, bus, N, play, pluck, thud, scratch, whoosh, bark, tick, bell, blip }, { music, woof, cues });
 
     const buf = await ctx.startRendering();
     return toWavBase64(buf);

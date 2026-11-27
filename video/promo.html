@@ -4,42 +4,13 @@
 <meta charset="utf-8">
 <title>stay. promo, take 1</title>
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Courier+Prime:ital,wght@0,700;1,400&family=Reenie+Beanie&display=block" rel="stylesheet">
-<style>
-  :root { --paper: #efe5cc; --card: #f7f0dd; --ink: #1b1915; --red: #c5302a; --blue: #1d4b8f; --brass: #d1a33a; }
-  html, body { margin: 0; background: var(--paper); }
-  #f { position: relative; width: 1080px; height: 1350px; overflow: hidden; background: var(--paper); color: var(--ink); }
-  #f > * { position: absolute; }
-  .dog { left: 260px; top: 456px; width: 560px; }
-  .dog svg { width: 100%; height: auto; display: block; overflow: visible; }
-  .dog-tail, .dog-head, .dog-ear-r, .dog-ear-l, .dog-tongue, .dog-all { transform-box: fill-box; }
-  .dog-tail { transform-origin: 0% 85%; }
-  .dog-head { transform-origin: 50% 92%; }
-  .dog-ear-r { transform-origin: 20% 5%; }
-  .dog-ear-l { transform-origin: 80% 5%; }
-  .dog-tongue { transform-origin: 50% 0; }
-  .ground { left: 0; top: 1060px; width: 1080px; height: 40px; }
-  .fig { left: 0; right: 60px; top: 1112px; text-align: right; font: italic 400 28px 'Courier Prime', monospace; }
-  .bar { left: 0; right: 0; bottom: 0; height: 120px; background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: space-between; padding: 0 56px; box-sizing: border-box; font: 700 34px 'Courier Prime', monospace; }
-  .bar b { font: 400 46px 'Alfa Slab One', serif; color: var(--brass); }
-  .pen { font-family: 'Reenie Beanie', cursive; color: var(--red); line-height: 1; }
-  .pos { transform: translate(-50%, -50%); }
-  .cmd { font-family: 'Alfa Slab One', serif; text-transform: uppercase; white-space: nowrap; padding: .16em .42em .12em; background: var(--card); border: 5px solid var(--ink); box-shadow: 9px 9px 0 var(--ink); line-height: 1; }
-  .cmd.red { background: var(--red); color: #fff4e6; }
-  .cmd.blue { background: var(--blue); color: #fff4e6; }
-  .big { font: 400 150px 'Alfa Slab One', serif; line-height: 1; white-space: nowrap; }
-  .big i { color: var(--red); font-style: normal; }
-  .lock { left: 0; right: 0; top: 110px; display: flex; align-items: center; justify-content: center; gap: 34px; }
-  .lock img { width: 190px; height: 190px; border: 6px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); }
-  .lock .big { font-size: 210px; }
-  .sub { left: 0; right: 0; top: 368px; text-align: center; font: 700 40px 'Courier Prime', monospace; }
-  .sub span { color: var(--red); }
-</style>
+<link rel="stylesheet" href="frame.css">
 </head>
 <body>
 <div id="f">
   <svg class="ground" viewBox="0 0 1080 40" aria-hidden="true" id="ground"></svg>
   <div class="fig" id="fig">fig. 1 — a dog. sitting.</div>
-  <div class="dog" id="dog"></div>
+  <div class="dog" id="dog" style="left:260px;top:456px;width:560px"></div>
   <div id="signs" style="inset:0"></div>
   <div class="pen" id="market" style="left:70px;top:70px;font-size:76px;transform:rotate(-4deg)">the market, all day:</div>
   <div class="pos" style="left:540px;top:250px"><div class="big" id="stays">he stays<i>.</i></div></div>
@@ -132,6 +103,25 @@
     document.fonts.load('italic 30px "Courier Prime"'), document.fonts.load('60px "Reenie Beanie"'),
     new Promise((r) => { const img = document.querySelector('.lock img'); img.complete ? r() : img.onload = r; }),
   ]).then(() => document.fonts.ready);
+</script>
+<script>
+  window.SCORE = (k, { music, woof, cues }) => {
+    if (music) {
+      k.bus.gain.setValueAtTime(.9, 0);
+      k.play(0, cues.fall + .02, 1, (b0) => b0 >= 4);
+      k.bus.gain.setValueAtTime(.9, cues.fall); k.bus.gain.linearRampToValueAtTime(0, cues.fall + .05);
+      k.bus.gain.setValueAtTime(0, cues.end + .1); k.bus.gain.linearRampToValueAtTime(.75, cues.end + .2);
+      k.bus.gain.setValueAtTime(.75, cues.dur - 1); k.bus.gain.linearRampToValueAtTime(0, cues.dur - .05);
+      k.play(cues.end + .15, cues.dur, .85, () => false);
+    }
+    cues.slams.forEach((t) => k.thud(t));
+    k.scratch(cues.fall);
+    k.whoosh(cues.fall + .1, .9);
+    k.thud(cues.fall + .95, .35); // the pile lands somewhere off screen
+    k.thud(8.7, 1); // he stays.
+    if (woof) k.bark(cues.woof);
+    k.thud(cues.end + .05, .8);
+  };
 </script>
 <script src="sound.js"></script>
 </body>

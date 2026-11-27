@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>stay. promo, take 2: roll call</title>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Courier+Prime:ital,wght@0,700;1,400&family=Reenie+Beanie&display=block" rel="stylesheet">
+<link rel="stylesheet" href="frame.css">
+<style>
+  .clock { left: 0; right: 0; top: 96px; text-align: center; }
+  .clock small { display: block; font: 700 34px 'Courier Prime', monospace; letter-spacing: .22em; }
+  .clock b { display: inline-block; font: 400 170px 'Alfa Slab One', serif; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .clock b.now { color: var(--red); }
+  .clock em { font: 700 40px 'Courier Prime', monospace; font-style: normal; vertical-align: 90px; margin-left: 22px; }
+  .pup { position: absolute; transform-origin: 50% 100%; }
+  .say { font-size: 36px; box-shadow: 6px 6px 0 var(--ink); border-width: 4px; }
+  .say::after { content: ''; position: absolute; left: 26px; bottom: -18px; border: 9px solid transparent; border-top-color: var(--ink); border-left-color: var(--ink); }
+  .say.r::after { left: auto; right: 26px; border-left-color: transparent; border-right-color: var(--ink); }
+  .two { left: 0; right: 0; top: 130px; text-align: center; font-size: 124px; line-height: 1.02; }
+</style>
+</head>
+<body>
+<div id="f">
+  <svg class="ground" viewBox="0 0 1080 40" aria-hidden="true" id="ground"></svg>
+  <div class="fig" id="fig"></div>
+  <div id="pack" style="inset:0"></div>
+  <div id="tags" style="inset:0"></div>
+  <div class="clock" id="clock"><small id="clab"></small><b id="cdig"></b><em>UTC</em></div>
+  <div class="pen" id="alone" style="left:70px;top:470px;font-size:76px;transform:rotate(-4deg)">sitting alone is hard.</div>
+  <div id="woofs" style="inset:0"></div>
+  <div class="big two" id="never">you never<br>sit alone<i>.</i></div>
+  <div class="lock" id="lock"><img src="../brand/logo.png" alt=""><div class="big">STAY<i>.</i></div></div>
+  <div class="sub" id="sub">roll call · every day · <span id="when"></span></div>
+  <div class="bar"><span id="site"></span><b>$STAY</b></div>
+</div>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/dog.js"></script>
+<script>
+  /* he starts alone. the clock hits roll call. the pack turns up, everyone says it,
+     they all hop at once. same rules as promo.html: fixed-delay animations, seek() per frame. */
+  const DUR = 15, BELL = 3;
+  const $ = (id) => document.getElementById(id);
+  const ms = (s) => s * 1000;
+  const at = (el, frames, start, dur, opts = {}) => el.animate(frames, { delay: ms(start), duration: ms(dur), fill: 'both', easing: 'ease-out', ...opts });
+  const pad = (n) => String(n).padStart(2, '0');
+  const HH = pad(window.STAY.rollCallUTC);
+
+  $('site').textContent = (new URLSearchParams(location.search).get('site') || window.STAY.site).replace(/^https?:\/\//, '');
+  $('when').textContent = HH + ':00 UTC';
+  $('ground').innerHTML = `<path d="M0 22 Q 270 19 540 22 T 1080 22" stroke="#1b1915" stroke-width="5" fill="none"/>` +
+    Array.from({ length: 54 }, (_, i) => `<path d="M${6 + i * 20} 22 l5 -${11 + (i * 7) % 9} l5 ${11 + (i * 7) % 9}" fill="#5f7a34" stroke="#1b1915" stroke-width="2"/>`).join('');
+
+  // back to front: [coat, eyes, centre x, ground y, width, arrives]. index 7 is him, there from the start.
+  const PACK = [
+    ['snow', 'side', 250, 760, 200, 5.1],
+    ['ginger', 'lidded', 830, 760, 200, 5.4],
+    ['soot', 'stare', 110, 905, 260, 4.5],
+    ['slate', 'side', 370, 905, 260, 3.9],
+    ['ginger', 'stare', 710, 905, 260, 4.2],
+    ['snow', 'lidded', 970, 905, 260, 4.8],
+    ['ginger', 'side', 160, 1080, 330, 3.3],
+    ['stay', 'stare', 540, 1080, 460, 0],
+    ['soot', 'side', 920, 1080, 330, 3.6],
+  ];
+  const HOP = 9.3;
+  const pups = PACK.map(([coat, eyes, cx, gy, w, arrive], i) => {
+    const el = document.createElement('div'), top = gy - w * 1.115;
+    el.className = 'dog pup'; el.style.cssText = `left:${cx - w / 2}px;top:${top}px;width:${w}px`;
+    el.innerHTML = dogSVG({ id: 'p' + i, coat, eyes });
+    $('pack').append(el);
+    if (arrive) at(el, [
+      { transform: 'translateY(70px) scale(.7, .5)', opacity: 0 },
+      { transform: 'translateY(-14px) scale(.96, 1.06)', opacity: 1, offset: .55 },
+      { transform: 'scale(1.04, .96)', opacity: 1, offset: .8 },
+      { transform: 'none', opacity: 1 },
+    ], arrive, .38);
+    // the wave: everybody hops, left to right, tongues out
+    const t = HOP + cx / 1080 * .55;
+    at(el.querySelector('.dog-all'), [
+      { transform: 'none' }, { transform: 'scale(1.07, .9)', offset: .16 }, { transform: 'translateY(-42px) scale(.95, 1.06)', offset: .46 },
+      { transform: 'scale(1.08, .9)', offset: .74 }, { transform: 'none' },
+    ], t, .62, { easing: 'cubic-bezier(.3,.7,.4,1)', fill: 'none' });
+    at(el.querySelector('.dog-tongue'), [{ opacity: 1, transform: 'scaleY(0)' }, { opacity: 1, transform: 'scaleY(1)', offset: .15 }, { opacity: 1, transform: 'scaleY(1)', offset: .85 }, { opacity: 1, transform: 'scaleY(0)' }], t + .1, 1.4, { fill: 'none' });
+    at(el.querySelector('.dog-tail'), [{ transform: 'rotate(-18deg)' }, { transform: 'rotate(10deg)' }], t, .15, { iterations: 14, direction: 'alternate', easing: 'ease-in-out', fill: 'none' });
+    at(el.querySelector('.dog-ear-l'), [{ transform: 'none' }, { transform: 'rotate(16deg)' }], t + .05, .18, { iterations: 4, direction: 'alternate', fill: 'none' });
+    at(el.querySelector('.dog-ear-r'), [{ transform: 'none' }, { transform: 'rotate(-16deg)' }], t + .05, .18, { iterations: 4, direction: 'alternate', fill: 'none' });
+    return { cx, top, w, arrive };
+  });
+
+  // everyone says it. a "stay." over somebody's head every 0.28s.
+  const ORDER = [7, 6, 8, 3, 4, 2, 5, 0, 1, 7, 3, 6, 5, 8, 0, 4, 2, 1];
+  const SAYS = ORDER.map((p, i) => {
+    const d = pups[p], t = 4 + i * .28, right = d.cx > 540;
+    const pos = document.createElement('div'), tag = document.createElement('div');
+    const size = Math.round(26 + d.w * .06);
+    pos.className = 'pos'; pos.style.cssText = `position:absolute;left:${d.cx + (right ? -1 : 1) * d.w * .22}px;top:${d.top + d.w * .02}px`;
+    tag.className = 'cmd say' + (right ? ' r' : '') + (i % 5 === 2 ? ' red' : i % 5 === 4 ? ' blue' : '');
+    tag.style.fontSize = size + 'px'; tag.style.position = 'relative'; tag.textContent = 'stay.';
+    pos.append(tag); $('tags').append(pos);
+    at(tag, [
+      { transform: 'scale(.3) rotate(-6deg)', opacity: 0 }, { transform: 'scale(1.1) rotate(2deg)', opacity: 1, offset: .1 },
+      { transform: 'scale(1) rotate(0)', opacity: 1, offset: .16 }, { transform: 'scale(1)', opacity: 1, offset: .82 },
+      { transform: 'translateY(-26px) scale(.96)', opacity: 0 },
+    ], t, 1.15);
+    return t;
+  });
+
+  // three soft woofs during the hop, written out for anyone watching on mute
+  const WOOFS = [[HOP + .15, 1.15, .7, 90, 400, -9], [HOP + .35, .95, .8, 800, 380, 7], [HOP + .55, 1.3, .6, 430, 420, -4]];
+  WOOFS.forEach(([t, , , x, y, rot]) => {
+    const w = document.createElement('div');
+    w.className = 'pen'; w.textContent = 'woof.'; w.style.cssText = `position:absolute;left:${x}px;top:${y}px;font-size:80px`;
+    $('woofs').append(w);
+    at(w, [{ opacity: 0, transform: `rotate(${rot}deg) scale(.6)` }, { opacity: 1, transform: `rotate(${rot}deg) scale(1.05)`, offset: .14 },
+      { opacity: 1, transform: `rotate(${rot}deg)`, offset: .75 }, { opacity: 0, transform: `rotate(${rot}deg) translateY(-30px)` }], t, 1.1);
+  });
+
+  at($('alone'), [{ opacity: 0, transform: 'rotate(-4deg) translateY(16px)' }, { opacity: 1, transform: 'rotate(-4deg)' }], .3, .4);
+  at($('alone'), [{ opacity: 1 }, { opacity: 0 }], BELL, .25, { fill: 'forwards' });
+  at($('cdig'), [{ transform: 'scale(1)' }, { transform: 'scale(1.18) rotate(-3deg)', offset: .3 }, { transform: 'scale(1)' }], BELL, .35, { fill: 'none' });
+  at($('clock'), [{ opacity: 1 }, { opacity: 0, transform: 'translateY(-40px)' }], 10.3, .3, { fill: 'forwards' });
+
+  const NEVER = 10.6, END = 12.5;
+  at($('never'), [{ opacity: 0, transform: 'scale(2)' }, { opacity: 1, transform: 'scale(.95)', offset: .6 }, { opacity: 1, transform: 'scale(1)' }], NEVER, .28);
+  at($('never'), [{ opacity: 1 }, { opacity: 0, transform: 'translateY(-60px)' }], END - .3, .3, { fill: 'forwards' });
+  at($('lock'), [{ opacity: 0, transform: 'scale(1.8)' }, { opacity: 1, transform: 'scale(.96)', offset: .6 }, { opacity: 1, transform: 'scale(1)' }], END, .28);
+  at($('sub'), [{ opacity: 0, transform: 'translateY(20px)' }, { opacity: 1, transform: 'none' }], END + .45, .35);
+  at($('fig'), [{ opacity: 1 }, { opacity: 0 }], END - .3, .2, { fill: 'forwards' });
+
+  window.STAY_CUES = { dur: DUR, bell: BELL, arrivals: PACK.map((p) => p[5]).filter(Boolean).sort((a, b) => a - b), says: SAYS, woofs: WOOFS, never: NEVER, end: END };
+
+  // the bits web animations can't do: clock digits and the caption
+  function words(t) {
+    const before = t < BELL;
+    $('cdig').textContent = before ? `${pad(+HH - 1)}:59:${57 + Math.floor(t)}` : `${HH}:00:00`;
+    $('cdig').className = before ? '' : 'now';
+    $('clab').textContent = before ? 'roll call in' : 'roll call. now.';
+    $('fig').textContent = t < 3.3 ? 'fig. 2 — one dog.' : 'fig. 2 — the pack.';
+  }
+  window.seek = (t) => { words(t); document.getAnimations().forEach((a) => { a.pause(); a.currentTime = ms(t); }); };
+  words(0);
+  window.ready = Promise.all([
+    document.fonts.load('80px "Alfa Slab One"'), document.fonts.load('bold 30px "Courier Prime"'),
+    document.fonts.load('italic 30px "Courier Prime"'), document.fonts.load('60px "Reenie Beanie"'),
+    new Promise((r) => { const img = document.querySelector('.lock img'); img.complete ? r() : img.onload = r; }),
+  ]).then(() => document.fonts.ready);
+
+  window.SCORE = (k, { music, woof, cues }) => {
+    [0.05, 1, 2].forEach((t) => k.tick(t, .5)); // the last three seconds before roll call
+    k.bell(cues.bell, 1320, .55);
+    k.thud(cues.bell, .5);
+    if (music) {
+      k.bus.gain.setValueAtTime(0, 0); k.bus.gain.setValueAtTime(0, cues.bell + .1); k.bus.gain.linearRampToValueAtTime(.8, cues.bell + .4);
+      k.bus.gain.setValueAtTime(.8, cues.dur - 1.2); k.bus.gain.linearRampToValueAtTime(0, cues.dur - .05);
+      k.play(cues.bell + .2, cues.dur, 1, (b0) => b0 >= 5 && b0 < 11);
+    }
+    // each dog that turns up plays the next note up
+    const up = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.51];
+    cues.arrivals.forEach((t, i) => k.blip(t, up[i % up.length], .3));
+    cues.says.forEach((t, i) => k.blip(t, i % 2 ? 1760 : 2093, .07));
+    if (woof) cues.woofs.forEach(([t, pitch, level]) => k.bark(t, pitch, level));
+    k.thud(cues.never, .9);
+    k.thud(cues.end, .7);
+  };
+</script>
+<script src="sound.js"></script>
+</body>
+</html>
