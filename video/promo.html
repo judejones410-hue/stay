@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>stay. promo, take 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Courier+Prime:ital,wght@0,700;1,400&family=Reenie+Beanie&display=block" rel="stylesheet">
+<style>
+  :root { --paper: #efe5cc; --card: #f7f0dd; --ink: #1b1915; --red: #c5302a; --blue: #1d4b8f; --brass: #d1a33a; }
+  html, body { margin: 0; background: var(--paper); }
+  #f { position: relative; width: 1080px; height: 1350px; overflow: hidden; background: var(--paper); color: var(--ink); }
+  #f > * { position: absolute; }
+  .dog { left: 260px; top: 456px; width: 560px; }
+  .dog svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .dog-tail, .dog-head, .dog-ear-r, .dog-ear-l, .dog-tongue, .dog-all { transform-box: fill-box; }
+  .dog-tail { transform-origin: 0% 85%; }
+  .dog-head { transform-origin: 50% 92%; }
+  .dog-ear-r { transform-origin: 20% 5%; }
+  .dog-ear-l { transform-origin: 80% 5%; }
+  .dog-tongue { transform-origin: 50% 0; }
+  .ground { left: 0; top: 1060px; width: 1080px; height: 40px; }
+  .fig { left: 0; right: 60px; top: 1112px; text-align: right; font: italic 400 28px 'Courier Prime', monospace; }
+  .bar { left: 0; right: 0; bottom: 0; height: 120px; background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: space-between; padding: 0 56px; box-sizing: border-box; font: 700 34px 'Courier Prime', monospace; }
+  .bar b { font: 400 46px 'Alfa Slab One', serif; color: var(--brass); }
+  .pen { font-family: 'Reenie Beanie', cursive; color: var(--red); line-height: 1; }
+  .pos { transform: translate(-50%, -50%); }
+  .cmd { font-family: 'Alfa Slab One', serif; text-transform: uppercase; white-space: nowrap; padding: .16em .42em .12em; background: var(--card); border: 5px solid var(--ink); box-shadow: 9px 9px 0 var(--ink); line-height: 1; }
+  .cmd.red { background: var(--red); color: #fff4e6; }
+  .cmd.blue { background: var(--blue); color: #fff4e6; }
+  .big { font: 400 150px 'Alfa Slab One', serif; line-height: 1; white-space: nowrap; }
+  .big i { color: var(--red); font-style: normal; }
+  .lock { left: 0; right: 0; top: 110px; display: flex; align-items: center; justify-content: center; gap: 34px; }
+  .lock img { width: 190px; height: 190px; border: 6px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); }
+  .lock .big { font-size: 210px; }
+  .sub { left: 0; right: 0; top: 368px; text-align: center; font: 700 40px 'Courier Prime', monospace; }
+  .sub span { color: var(--red); }
+</style>
+</head>
+<body>
+<div id="f">
+  <svg class="ground" viewBox="0 0 1080 40" aria-hidden="true" id="ground"></svg>
+  <div class="fig" id="fig">fig. 1 — a dog. sitting.</div>
+  <div class="dog" id="dog"></div>
+  <div id="signs" style="inset:0"></div>
+  <div class="pen" id="market" style="left:70px;top:70px;font-size:76px;transform:rotate(-4deg)">the market, all day:</div>
+  <div class="pos" style="left:540px;top:250px"><div class="big" id="stays">he stays<i>.</i></div></div>
+  <div class="pen" id="woof" style="left:770px;top:520px;font-size:84px;transform:rotate(-8deg)">woof.</div>
+  <div class="lock" id="lock"><img src="../brand/logo.png" alt=""><div class="big">STAY<i>.</i></div></div>
+  <div class="sub" id="sub"><span>$STAY</span> · a dog with one command.</div>
+  <div class="bar"><span id="site"></span><b>$STAY</b></div>
+</div>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/dog.js"></script>
+<script>
+  /* every moving part is a Web Animation with a fixed delay, so render.js can pause the
+     whole lot and seek to any frame. times are in seconds. */
+  const DUR = 14;
+  const $ = (id) => document.getElementById(id);
+  const ms = (s) => s * 1000;
+  const at = (el, frames, start, dur, opts = {}) => el.animate(frames, { delay: ms(start), duration: ms(dur), fill: 'both', easing: 'ease-out', ...opts });
+
+  $('site').textContent = (new URLSearchParams(location.search).get('site') || window.STAY.site).replace(/^https?:\/\//, '');
+  $('dog').innerHTML = dogSVG({ id: 'v' });
+  $('ground').innerHTML = `<path d="M0 22 Q 270 19 540 22 T 1080 22" stroke="#1b1915" stroke-width="5" fill="none"/>` +
+    Array.from({ length: 54 }, (_, i) => `<path d="M${6 + i * 20} 22 l5 -${11 + (i * 7) % 9} l5 ${11 + (i * 7) % 9}" fill="#5f7a34" stroke="#1b1915" stroke-width="2"/>`).join('');
+
+  // [time, words, tone, centre x, centre y, tilt, font size]. his face (x 370–710, y 546–800) stays clear.
+  const CMDS = [
+    [1.0, 'sell.', 'red', 250, 330, -6, 96],
+    [1.7, 'panic.', '', 820, 420, 7, 84],
+    [2.35, 'fetch the bottom.', 'blue', 540, 215, -3, 58],
+    [2.95, 'rent due.', 'red', 190, 650, -8, 52],
+    [3.45, 'buy the top.', '', 880, 690, 6, 50],
+    [3.9, 'roll over.', 'blue', 260, 910, 5, 54],
+    [4.3, 'come here.', '', 820, 930, -6, 54],
+    [4.65, 'speak.', 'red', 190, 500, 4, 50],
+    [4.95, 'heel.', 'blue', 890, 560, -7, 56],
+    [5.25, 'beg.', '', 540, 1010, 3, 56],
+    [5.5, 'play dead.', 'red', 800, 300, -4, 48],
+    [5.75, 'get off the couch.', '', 540, 880, 2, 44],
+    [5.95, 'wake up.', 'blue', 200, 780, -5, 46],
+    [6.1, 'rug.', 'red', 900, 800, 8, 62],
+    [6.25, 'dump.', '', 430, 410, -9, 58],
+    [6.4, 'ngmi.', 'blue', 700, 470, 6, 52],
+  ];
+  const FALL = 7.5; // the record scratch. everything drops.
+  window.STAY_CUES = { slams: CMDS.map((c) => c[0]), fall: FALL, woof: 9.8, end: 10.8, dur: DUR };
+
+  const signs = $('signs');
+  CMDS.forEach(([t, text, tone, x, y, rot, size], i) => {
+    const pos = document.createElement('div'), fall = document.createElement('div'), cmd = document.createElement('div');
+    pos.className = 'pos'; pos.style.cssText = `position:absolute;left:${x}px;top:${y}px`;
+    cmd.className = 'cmd ' + tone; cmd.textContent = text; cmd.style.fontSize = size + 'px';
+    fall.append(cmd); pos.append(fall); signs.append(pos);
+    at(cmd, [
+      { transform: `scale(2.3) rotate(${rot * 3}deg)`, opacity: 0 },
+      { transform: `scale(.92) rotate(${rot}deg)`, opacity: 1, offset: .55 },
+      { transform: `scale(1) rotate(${rot}deg)`, opacity: 1 },
+    ], t, .2);
+    const dir = x < 540 ? -1 : 1, t0 = FALL + .05 + (i % 6) * .05;
+    at(fall, [
+      { transform: 'none' },
+      { transform: `translate(${dir * 30}px, -40px) rotate(${dir * 8}deg)`, offset: .18 },
+      { transform: `translate(${dir * 160}px, ${2100 - y}px) rotate(${dir * 75}deg)` },
+    ], t0, .9, { easing: 'cubic-bezier(.45,0,.9,.6)' });
+  });
+  // the pile-up shakes before it goes
+  at(signs, Array.from({ length: 12 }, (_, i) => ({ transform: i === 0 || i === 11 ? 'none' : `translate(${(i % 2 ? 1 : -1) * (3 + i * .9)}px, ${(i % 3 - 1) * 4}px)` })), 6.6, .9, { easing: 'linear' });
+
+  at($('market'), [{ opacity: 0, transform: 'rotate(-4deg) translateY(16px)' }, { opacity: 1, transform: 'rotate(-4deg)' }], .3, .4);
+  at($('market'), [{ opacity: 1 }, { opacity: 0 }], FALL, .3, { fill: 'forwards' });
+
+  // he stays.
+  at($('stays'), [{ opacity: 0, transform: 'scale(2.2)' }, { opacity: 1, transform: 'scale(.94)', offset: .6 }, { opacity: 1, transform: 'scale(1)' }], 8.7, .25);
+  at($('stays'), [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-60px)' }], 10.6, .3, { fill: 'forwards' });
+
+  // the only movement he makes all video: a wag, a tilt, one woof
+  const dog = $('dog');
+  at(dog.querySelector('.dog-tail'), [{ transform: 'rotate(-18deg)' }, { transform: 'rotate(10deg)' }], 9.55, .16, { iterations: 12, direction: 'alternate', easing: 'ease-in-out', fill: 'none' });
+  at(dog.querySelector('.dog-head'), [{ transform: 'none' }, { transform: 'rotate(-7deg)', offset: .25 }, { transform: 'rotate(-7deg)', offset: .7 }, { transform: 'none' }], 9.7, 1.1, { easing: 'ease-in-out', fill: 'none' });
+  at(dog.querySelector('.dog-ear-r'), [{ transform: 'none' }, { transform: 'rotate(-14deg)' }], 9.78, .12, { iterations: 4, direction: 'alternate', fill: 'none' });
+  at(dog.querySelector('.dog-tongue'), [{ opacity: 1, transform: 'scaleY(0)' }, { opacity: 1, transform: 'scaleY(1)', offset: .2 }, { opacity: 1, transform: 'scaleY(1)', offset: .8 }, { opacity: 1, transform: 'scaleY(0)' }], 9.85, .9, { fill: 'none' });
+  at($('woof'), [{ opacity: 0, transform: 'rotate(-8deg) scale(.6)' }, { opacity: 1, transform: 'rotate(-8deg) scale(1.05)', offset: .12 }, { opacity: 1, transform: 'rotate(-8deg) scale(1)', offset: .8 }, { opacity: 0, transform: 'rotate(-8deg) translateY(-30px)' }], 9.8, 1.1);
+
+  // end card: the logo lockup
+  at($('lock'), [{ opacity: 0, transform: 'scale(1.8)' }, { opacity: 1, transform: 'scale(.96)', offset: .6 }, { opacity: 1, transform: 'scale(1)' }], 10.85, .28);
+  at($('sub'), [{ opacity: 0, transform: 'translateY(20px)' }, { opacity: 1, transform: 'none' }], 11.3, .35);
+  at($('fig'), [{ opacity: 1 }, { opacity: 0 }], 10.7, .2, { fill: 'forwards' });
+
+  window.seek = (t) => document.getAnimations().forEach((a) => { a.pause(); a.currentTime = ms(t); });
+  window.ready = Promise.all([
+    document.fonts.load('80px "Alfa Slab One"'), document.fonts.load('bold 30px "Courier Prime"'),
+    document.fonts.load('italic 30px "Courier Prime"'), document.fonts.load('60px "Reenie Beanie"'),
+    new Promise((r) => { const img = document.querySelector('.lock img'); img.complete ? r() : img.onload = r; }),
+  ]).then(() => document.fonts.ready);
+</script>
+<script src="sound.js"></script>
+</body>
+</html>

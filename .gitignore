@@ -4,3 +4,5 @@ keeper/data/
 .vercel
 .DS_Store
 .env*
+video/node_modules
+video/out

@@ -62,7 +62,23 @@
     </svg>`;
   }
 
+  // the lockup: badge + name, for headers, posts and the end of videos
+  function wordmark(bg = PAPER, fg = INK) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="600" viewBox="0 0 1600 600">
+      <rect width="1600" height="600" fill="${bg}"/>
+      <g transform="translate(205 130)">
+        <rect x="14" y="14" width="300" height="300" fill="${INK}"/>
+        <svg width="300" height="300" viewBox="0 0 1000 1000">${logo(BLUE, '#24569f').replace(/^<svg[^>]*>|<\/svg>\s*$/g, '')}</svg>
+        <rect width="300" height="300" fill="none" stroke="${INK}" stroke-width="10"/>
+      </g>
+      <text x="575" y="370" font-family="'Alfa Slab One'" font-size="270" fill="${fg}">STAY<tspan fill="${RED}">.</tspan></text>
+      <text x="583" y="452" font-family="'Courier Prime'" font-weight="700" font-size="44" fill="${fg}"><tspan fill="${RED}">$STAY</tspan> · a dog with one command.</text>
+    </svg>`;
+  }
+
   const make = {
+    wordmark: () => wordmark(),
+    'wordmark-dark': () => wordmark(INK, PAPER),
     logo: () => logo(BLUE, '#24569f'),
     'logo-paper': () => logo(PAPER, '#e5d7b4'),
     'logo-red': () => logo(RED, '#cf3a33', 'slate'),

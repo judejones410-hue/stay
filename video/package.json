@@ -1,0 +1,8 @@
+{
+  "name": "stay-video",
+  "private": true,
+  "type": "module",
+  "description": "renders the $STAY promo clips to mp4",
+  "scripts": { "render": "node render.js" },
+  "dependencies": { "ffmpeg-static": "5.2.0", "puppeteer-core": "23.11.1" }
+}
