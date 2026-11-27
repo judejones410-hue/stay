@@ -7,7 +7,8 @@
 **a dog with one command.**<br>
 the market keeps shouting. he keeps sitting.
 
-`$STAY` · solana · pump.fun
+`$STAY` · solana · pump.fun<br>
+**[stay-site-ashen.vercel.app](https://stay-site-ashen.vercel.app)**
 
 </div>
 
