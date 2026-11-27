@@ -15,16 +15,18 @@
     const sr = stage.getBoundingClientRect(), dr = stage.querySelector('.dog').getBoundingClientRect();
     const pad = dr.width * .1; // the svg has a little air around him
     const dog = { x: dr.left - sr.left + pad, y: dr.top - sr.top + pad * .6, w: dr.width - pad * 2, h: dr.height - pad };
+    const head = { x: dog.x, y: dog.y, w: dog.w, h: dog.h * .55 }; // keep his face clear. his legs can take a sign.
     const zones = [
       { x0: 6, x1: dog.x - ew - 8, y0: 20, y1: dog.y + dog.h * .7 - eh },          // left of him
       { x0: dog.x + dog.w + 8, x1: W - ew - 6, y0: 20, y1: dog.y + dog.h * .7 - eh }, // right of him
       { x0: 6, x1: W - ew - 6, y0: 10, y1: dog.y - eh - 8 },                         // above him
+      { x0: 6, x1: W - ew - 6, y0: head.y + head.h + 8, y1: stage.clientHeight - eh - 34 }, // across his paws
     ].filter((z) => z.x1 >= z.x0 && z.y1 >= z.y0);
     const notes = [...stage.querySelectorAll('.note')].map((n) => { const b = n.getBoundingClientRect(); return { x: b.left - sr.left, y: b.top - sr.top, w: b.width, h: b.height }; });
     for (let t = 0; t < 14 && zones.length; t++) {
       const z = zones[Math.floor(Math.random() * zones.length)];
       const r = { x: z.x0 + Math.random() * (z.x1 - z.x0), y: z.y0 + Math.random() * (z.y1 - z.y0), w: ew, h: eh };
-      if (![...live, ...notes, dog].some((o) => overlaps(o, r))) return r;
+      if (![...live, ...notes, head].some((o) => overlaps(o, r))) return r;
     }
     return null;
   }
@@ -38,12 +40,12 @@
     stage.appendChild(el);
 
     let r = null;
-    for (let size = parseFloat(getComputedStyle(el).fontSize); size >= 12 && !r; size -= 2) {
+    for (let size = parseFloat(getComputedStyle(el).fontSize); size >= 14 && !r; size -= 2) {
       el.style.fontSize = size + 'px';
       r = spot(el.offsetWidth, el.offsetHeight);
     }
-    if (!r) { el.remove(); return; } // no clear spot right now. try the next one.
     i++;
+    if (!r) { el.remove(); return; } // no clear spot right now. move on to the next word.
     live.push(r);
     el.style.left = r.x + 'px'; el.style.top = r.y + 'px'; el.style.visibility = '';
 
