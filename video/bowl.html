@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>stay. promo, take 3: the bowl</title>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Courier+Prime:ital,wght@0,700;1,400&family=Reenie+Beanie&display=block" rel="stylesheet">
+<link rel="stylesheet" href="frame.css">
+<style>
+  .step { left: 60px; right: 60px; top: 78px; }
+  .step small { display: block; font: 700 30px 'Courier Prime', monospace; letter-spacing: .2em; text-transform: uppercase; }
+  .step small span { color: var(--red); }
+  .step h1 { margin: 10px 0 0; font: 400 92px 'Alfa Slab One', serif; line-height: 1; }
+  .step h1 i { color: var(--red); font-style: normal; }
+  .step p { margin: 16px 0 0; font: 700 36px 'Courier Prime', monospace; line-height: 1.3; max-width: 900px; }
+  .tok { position: absolute; left: 0; top: 0; width: 72px; height: 72px; margin: -36px 0 0 -36px; }
+  .tok svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .tin { left: 70px; top: 560px; width: 230px; height: 150px; background: var(--card); border: 5px solid var(--ink); box-shadow: 9px 9px 0 var(--ink); box-sizing: border-box; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 18px; font: 700 30px 'Courier Prime', monospace; }
+  .tin::before { content: ''; position: absolute; left: 30px; right: 30px; top: 22px; height: 10px; background: var(--ink); }
+  .receipt { left: 335px; top: 0; width: 230px; background: var(--card); border: 4px solid var(--ink); box-shadow: 7px 7px 0 var(--ink); padding: 14px 16px; box-sizing: border-box; font: 700 22px 'Courier Prime', monospace; transform-origin: 50% 50%; }
+  .receipt hr { border: 0; border-top: 3px dashed var(--ink); margin: 10px 0; }
+  .stamp { font: 400 96px 'Alfa Slab One', serif; color: var(--red); border: 8px solid var(--red); padding: 0 18px; transform: rotate(-8deg); }
+  .fine { left: 90px; right: 90px; top: 440px; line-height: 1.4; text-align: center; font: 400 italic 28px 'Courier Prime', monospace; color: #4a443a; }
+</style>
+</head>
+<body>
+<div id="f">
+  <svg class="ground" viewBox="0 0 1080 40" aria-hidden="true" id="ground"></svg>
+  <div class="fig" id="fig">fig. 3 — the bowl.</div>
+  <div class="dog" id="dog" style="left:660px;top:656px;width:380px"></div>
+  <div class="tin" id="tin">the keeper</div>
+  <svg id="bowl" style="left:160px;top:900px" width="460" height="180" viewBox="0 0 460 180" aria-hidden="true">
+    <defs><clipPath id="inside"><path d="M14 14 L 446 14 L 410 176 L 50 176 Z"/></clipPath></defs>
+    <path d="M14 14 L 446 14 L 410 176 L 50 176 Z" fill="#f7f0dd"/>
+    <g clip-path="url(#inside)"><g id="water"><rect x="0" y="0" width="460" height="200" fill="#1d4b8f"/><path d="M0 0 Q 57 -10 115 0 T 230 0 T 345 0 T 460 0" fill="none" stroke="#5b86c7" stroke-width="6"/></g></g>
+    <path d="M14 14 L 446 14 L 410 176 L 50 176 Z" fill="none" stroke="#1b1915" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M6 14 h448" stroke="#c5302a" stroke-width="14" stroke-linecap="square"/>
+  </svg>
+  <div class="pen" id="poollbl" style="left:40px;top:820px;font-size:58px;transform:rotate(-6deg)">the pool ↘</div>
+  <div id="toks" style="inset:0"></div>
+  <div class="receipt" id="receipt">LP RECEIPT<hr>$STAY + SOL<br>added to pool<hr>#0001</div>
+  <svg id="fire" style="left:355px;top:0" width="190" height="170" viewBox="0 0 190 170" aria-hidden="true"></svg>
+  <div class="pos" style="left:460px;top:640px"><div class="stamp" id="burned">BURNED.</div></div>
+  <div class="pen" id="bought" style="left:560px;top:470px;font-size:60px;transform:rotate(6deg)">bought.</div>
+  <div class="pen" id="woof" style="left:820px;top:520px;font-size:84px;transform:rotate(-8deg)">woof.</div>
+  <div id="steps" style="inset:0"></div>
+  <div class="lock" id="lock"><img src="../brand/logo.png" alt=""><div class="big">STAY<i>.</i></div></div>
+  <div class="sub" id="sub">fees go in the bowl<span>.</span></div>
+  <div class="fine" id="fine">every add is on solscan. a deeper pool can mean less slippage. it is not a price floor.</div>
+  <div class="bar"><span id="site"></span><b>$STAY</b></div>
+</div>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/dog.js"></script>
+<script>
+  /* how the bowl fills, in the same five steps the site uses: claim, buy a slice, pair, pour, burn the lp.
+     same rules as promo.html: fixed-delay animations, seek() per frame. */
+  const DUR = 17;
+  const $ = (id) => document.getElementById(id);
+  const ms = (s) => s * 1000;
+  const at = (el, frames, start, dur, opts = {}) => el.animate(frames, { delay: ms(start), duration: ms(dur), fill: 'both', easing: 'ease-out', ...opts });
+  const later = (el, frames, start, dur, opts = {}) => at(el, frames, start, dur, { fill: 'forwards', ...opts }); // doesn't touch anything before it starts
+
+  $('site').textContent = (new URLSearchParams(location.search).get('site') || window.STAY.site).replace(/^https?:\/\//, '');
+  $('dog').innerHTML = dogSVG({ id: 'k' });
+  $('ground').innerHTML = `<path d="M0 22 Q 270 19 540 22 T 1080 22" stroke="#1b1915" stroke-width="5" fill="none"/>` +
+    Array.from({ length: 54 }, (_, i) => `<path d="M${6 + i * 20} 22 l5 -${11 + (i * 7) % 9} l5 ${11 + (i * 7) % 9}" fill="#5f7a34" stroke="#1b1915" stroke-width="2"/>`).join('');
+
+  // [start, kicker, title, line]
+  const STEPS = [
+    [0, 'the bowl · <span>where the fees go</span>', 'fees go in<br>the bowl<i>.</i>', 'five steps. a small bot does them on a timer.'],
+    [1.0, '01 / 05', 'claim the treats<i>.</i>', 'creator fees from every trade go to the keeper.'],
+    [3.4, '02 / 05', 'buy a slice<i>.</i>', 'part of the sol buys $STAY on the pool.'],
+    [5.8, '03 / 05', 'pair it<i>.</i>', 'the $STAY it bought + the sol it didn\'t spend.'],
+    [8.2, '04 / 05', 'pour it in<i>.</i>', 'both go into the $STAY/sol pool as liquidity.'],
+    [10.6, '05 / 05', 'burn the receipt<i>.</i>', 'burned lp can\'t be pulled out. by anyone. us included.'],
+    [13.0, 'every batch', 'then again<i>.</i>', 'it never sells $STAY. the code is on github.'],
+  ];
+  const END = 14.6;
+  STEPS.forEach(([t, kick, title, line], i) => {
+    const el = document.createElement('div');
+    el.className = 'step'; el.style.position = 'absolute';
+    el.innerHTML = `<small>${kick}</small><h1>${title}</h1><p>${line}</p>`;
+    $('steps').append(el);
+    // one animation per title (in, hold, out). two stacked ones on the same element confuse the capture.
+    const next = (STEPS[i + 1] || [END])[0], span = next - t, inn = t ? .3 / span : 0, out = .22 / span;
+    at(el, [
+      { opacity: t ? 0 : 1, transform: t ? 'translateX(60px)' : 'none' },
+      { opacity: 1, transform: 'none', offset: inn },
+      { opacity: 1, transform: 'none', offset: 1 - out },
+      { opacity: 0, transform: 'translateX(-60px)' },
+    ], t, span, { easing: 'linear' });
+  });
+
+  // tokens: dark coins are sol, brass tags are $STAY
+  const coinSVG = `<svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="32" fill="#1b1915" stroke="#1b1915" stroke-width="4"/><circle cx="36" cy="36" r="24" fill="none" stroke="#efe5cc" stroke-width="2" stroke-dasharray="4 5"/><text x="36" y="43" text-anchor="middle" font-family="'Courier Prime'" font-weight="700" font-size="19" fill="#efe5cc">SOL</text></svg>`;
+  const tagSVG = `<svg viewBox="0 0 72 72"><path d="M10 8 L 62 8 L 68 36 L 36 66 L 4 36 Z" fill="#d1a33a" stroke="#1b1915" stroke-width="5" stroke-linejoin="round"/><circle cx="36" cy="18" r="4" fill="none" stroke="#1b1915" stroke-width="3"/><text x="36" y="44" text-anchor="middle" font-family="'Alfa Slab One'" font-size="15" fill="#1b1915">STAY</text></svg>`;
+  const tok = (svg) => { const el = document.createElement('div'); el.className = 'tok'; el.innerHTML = svg; $('toks').append(el); return el; };
+  const xy = (x, y, extra = '') => `translate(${x}px, ${y}px) ${extra}`;
+
+  // 1. claim: six fees drop onto the keeper's tin
+  const coins = Array.from({ length: 6 }, (_, i) => {
+    const el = tok(coinSVG), x = 100 + i * 36, t = 1.15 + i * .22;
+    at(el, [{ transform: xy(x + (i % 2 ? 40 : -40), -120), opacity: 1 }, { transform: xy(x, 520), offset: .8 }, { transform: xy(x, 506) , offset: .9 }, { transform: xy(x, 520) }], t, .5, { easing: 'cubic-bezier(.5,0,1,.8)' });
+    return { el, x, y: 520, land: t + .4 };
+  });
+  // 2. buy a slice: two of them jump out and turn into $STAY
+  const tags = [4, 5].map((ci, k) => {
+    const c = coins[ci], tx = 440 + k * 84, ty = 470;
+    later(c.el, [{ transform: xy(c.x, c.y) }, { transform: xy(tx, ty) }], 3.55 + k * .1, .35);
+    later(c.el, [{ transform: xy(tx, ty) }, { transform: xy(tx, ty, 'scaleX(0)') }], 3.95 + k * .1, .1, { easing: 'ease-in' });
+    const el = tok(tagSVG);
+    at(el, [{ transform: xy(tx, ty, 'scaleX(0)'), opacity: 1 }, { transform: xy(tx, ty, 'scaleX(1.15)'), offset: .7 }, { transform: xy(tx, ty) }], 4.05 + k * .1, .16);
+    return { el, x: tx, y: ty };
+  });
+  at($('bought'), [{ opacity: 0, transform: 'rotate(6deg) scale(.6)' }, { opacity: 1, transform: 'rotate(6deg)' }], 4.15, .2);
+  later($('bought'), [{ opacity: 1 }, { opacity: 0 }], 5.7, .2);
+  // 3. pair: $STAY and the sol it didn't spend, side by side over the bowl
+  const line = [tags[0], coins[0], coins[1], tags[1], coins[2], coins[3]];
+  line.forEach((t, k) => {
+    const x = 210 + k * 72, y = 790;
+    later(t.el, [{ transform: xy(t.x, t.y) }, { transform: xy(x, y - 30), offset: .7 }, { transform: xy(x, y) }], 6.0 + k * .07, .5);
+    // 4. pour: into the bowl they go
+    later(t.el, [{ transform: xy(x, y), opacity: 1 }, { transform: xy(390 + (k - 2.5) * 30, 990, 'scale(.5)'), opacity: 0 }], 8.35 + k * .06, .45, { easing: 'ease-in' });
+  });
+  const water = $('water');
+  at(water, [{ transform: 'translateY(150px)' }, { transform: 'translateY(150px)' }], 0, .1);
+  later(water, [{ transform: 'translateY(150px)' }, { transform: 'translateY(52px)', offset: .8 }, { transform: 'translateY(62px)' }], 8.7, 1.3, { easing: 'cubic-bezier(.3,.8,.4,1)' });
+  at($('poollbl'), [{ opacity: 0 }, { opacity: 1 }], 8.2, .3);
+  later($('poollbl'), [{ opacity: 1 }, { opacity: 0 }], END - .3, .3);
+
+  // 5. burn: the receipt pops out of the bowl and goes up in flames
+  const rc = $('receipt');
+  at(rc, [{ transform: 'translateY(960px) scale(.4) rotate(0)', opacity: 0 }, { transform: 'translateY(520px) scale(1.04) rotate(-5deg)', opacity: 1, offset: .75 }, { transform: 'translateY(540px) scale(1) rotate(-4deg)', opacity: 1 }], 10.75, .5);
+  later(rc, [{ transform: 'translateY(540px) rotate(-4deg)', filter: 'brightness(1)', opacity: 1 },
+    { transform: 'translateY(540px) rotate(-4deg) scaleY(.7)', filter: 'brightness(.5)', opacity: 1, offset: .5 },
+    { transform: 'translateY(560px) rotate(-4deg) scale(.2, .05)', filter: 'brightness(.1)', opacity: 0 }], 11.45, .9, { easing: 'ease-in' });
+  const fire = $('fire');
+  fire.innerHTML = [[95, 150, 1, '#c5302a'], [60, 110, .8, '#c5302a'], [130, 115, .75, '#c5302a'], [95, 120, .7, '#d1a33a'], [70, 85, .45, '#d1a33a'], [120, 90, .45, '#d1a33a']].map(([x, h, s, c], i) =>
+    `<path class="fl" style="transform-box:fill-box;transform-origin:50% 100%" d="M${x - 34 * s} 165 C ${x - 40 * s} ${165 - h * .5}, ${x - 6 * s} ${165 - h * .7}, ${x} ${165 - h} C ${x + 8 * s} ${165 - h * .6}, ${x + 42 * s} ${165 - h * .5}, ${x + 34 * s} 165 Z" fill="${c}" stroke="#1b1915" stroke-width="4" stroke-linejoin="round"/>`).join('');
+  at(fire, [{ transform: 'translateY(560px) scale(0)', opacity: 1 }, { transform: 'translateY(500px) scale(1.1)', opacity: 1, offset: .25 }, { transform: 'translateY(500px) scale(1)', opacity: 1, offset: .7 }, { transform: 'translateY(520px) scale(.3)', opacity: 0 }], 11.35, 1.1);
+  fire.querySelectorAll('.fl').forEach((f, i) => at(f, [{ transform: 'scaleY(.8) skewX(-4deg)' }, { transform: 'scaleY(1.15) skewX(5deg)' }], 11.35 + i * .03, .13, { iterations: 8, direction: 'alternate', easing: 'ease-in-out' }));
+  at($('burned'), [{ opacity: 0, transform: 'rotate(-8deg) scale(2.2)' }, { opacity: 1, transform: 'rotate(-8deg) scale(.94)', offset: .6 }, { opacity: 1, transform: 'rotate(-8deg) scale(1)' }], 12.35, .25);
+  later($('burned'), [{ opacity: 1 }, { opacity: 0 }], 13.0 - .2, .2);
+
+  // he approves
+  const dog = $('dog'), WOOF = 13.35;
+  at(dog.querySelector('.dog-tail'), [{ transform: 'rotate(-18deg)' }, { transform: 'rotate(10deg)' }], 13.1, .16, { iterations: 12, direction: 'alternate', easing: 'ease-in-out', fill: 'none' });
+  at(dog.querySelector('.dog-head'), [{ transform: 'none' }, { transform: 'rotate(-7deg)', offset: .25 }, { transform: 'rotate(-7deg)', offset: .7 }, { transform: 'none' }], 13.25, 1.1, { easing: 'ease-in-out', fill: 'none' });
+  at(dog.querySelector('.dog-tongue'), [{ opacity: 1, transform: 'scaleY(0)' }, { opacity: 1, transform: 'scaleY(1)', offset: .2 }, { opacity: 1, transform: 'scaleY(1)', offset: .8 }, { opacity: 1, transform: 'scaleY(0)' }], WOOF + .05, .9, { fill: 'none' });
+  at($('woof'), [{ opacity: 0, transform: 'rotate(-8deg) scale(.6)' }, { opacity: 1, transform: 'rotate(-8deg) scale(1.05)', offset: .12 }, { opacity: 1, transform: 'rotate(-8deg)', offset: .8 }, { opacity: 0, transform: 'rotate(-8deg) translateY(-30px)' }], WOOF, 1.1);
+
+  // end card
+  at($('lock'), [{ opacity: 0, transform: 'scale(1.8)' }, { opacity: 1, transform: 'scale(.96)', offset: .6 }, { opacity: 1, transform: 'scale(1)' }], END, .28);
+  at($('sub'), [{ opacity: 0, transform: 'translateY(20px)' }, { opacity: 1, transform: 'none' }], END + .45, .35);
+  at($('fine'), [{ opacity: 0 }, { opacity: 1 }], END + .8, .4);
+  at($('fig'), [{ opacity: 1 }, { opacity: 0 }], END - .3, .2, { fill: 'forwards' });
+  at($('tin'), [{ opacity: 1 }, { opacity: 0, transform: 'translateY(30px)' }], END - .3, .3, { fill: 'forwards' });
+
+  window.STAY_CUES = { dur: DUR, steps: STEPS.map((s) => s[0]).filter(Boolean), coins: coins.map((c) => c.land), buy: 3.95, pair: 6.0, pour: 8.35, fill: 8.7, burn: 11.35, burned: 12.35, woof: WOOF, end: END };
+
+  window.seek = (t) => document.getAnimations().forEach((a) => { a.pause(); a.currentTime = ms(t); });
+  window.ready = Promise.all([
+    document.fonts.load('80px "Alfa Slab One"'), document.fonts.load('bold 30px "Courier Prime"'),
+    document.fonts.load('italic 30px "Courier Prime"'), document.fonts.load('60px "Reenie Beanie"'),
+    new Promise((r) => { const img = document.querySelector('.lock img'); img.complete ? r() : img.onload = r; }),
+  ]).then(() => document.fonts.ready);
+
+  window.SCORE = (k, { music, woof, cues }) => {
+    if (music) {
+      k.bus.gain.setValueAtTime(.7, 0);
+      k.bus.gain.setValueAtTime(.7, cues.dur - 1.2); k.bus.gain.linearRampToValueAtTime(0, cues.dur - .05);
+      k.play(0, cues.dur, 1, (b0) => b0 >= 8 && b0 < 12);
+    }
+    cues.steps.forEach((t) => k.thud(t, .35));
+    cues.coins.forEach((t, i) => k.blip(t, [2349, 2637, 2093][i % 3], .16)); // clink
+    k.bell(cues.buy, 1760, .3); k.blip(cues.buy + .1, 2637, .2); // ka-ching
+    [0, 1, 2, 3, 4, 5].forEach((i) => k.blip(cues.pair + .1 + i * .07, 784 * Math.pow(1.122, i), .12));
+    k.whoosh(cues.pour, .7);
+    [0, 1, 2, 3, 4].forEach((i) => k.blip(cues.fill + i * .2, 523 / Math.pow(1.12, i), .22)); // glug
+    k.whoosh(cues.burn, 1);
+    [0, .07, .16, .22, .31, .4, .46, .55, .63, .71, .8, .88].forEach((d) => k.tick(cues.burn + .1 + d, .12)); // crackle
+    k.thud(cues.burned, .9);
+    if (woof) k.bark(cues.woof);
+    k.thud(cues.end + .02, .7);
+  };
+</script>
+<script src="sound.js"></script>
+</body>
+</html>
