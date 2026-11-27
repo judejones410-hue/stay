@@ -449,6 +449,27 @@ details.q p { padding: 0 0 14px 34px; margin: 0; }
 .pack-dogs { width: 100%; height: auto; display: block; margin-top: 30px; }
 .pack-dogs > svg { cursor: pointer; }
 .pack-dogs > svg:hover .dog-tail, .pack-dogs > svg.wag .dog-tail { animation: wag .28s ease-in-out infinite alternate; }
+/* tapped: the whole dog gets excited. hop, head tilt, ears flap, tongue out. */
+.dog-all, .dog-ear-l, .dog-tongue { transform-box: fill-box; }
+.dog-all { transform-origin: 50% 100%; }
+.dog-head { transform-origin: 50% 92%; }
+.dog-ear-l { transform-origin: 80% 5%; }
+.dog-tongue { transform-origin: 50% 0; }
+.wag .dog-all { animation: hop .62s cubic-bezier(.3, .7, .4, 1) 2; }
+.wag .dog-head { animation: tilt 1.3s ease-in-out; }
+.wag .dog-ear-l { animation: flap-l .2s ease-in-out 6 alternate; }
+.wag .dog-ear-r { animation: flap-r .2s ease-in-out 6 alternate; }
+.wag .dog-tongue { animation: tongue 1.3s ease-out both; }
+@keyframes hop {
+  0%, 100% { transform: none; }
+  16% { transform: scale(1.07, .9); }
+  46% { transform: translateY(-38px) scale(.95, 1.06); }
+  74% { transform: translateY(0) scale(1.08, .9); }
+}
+@keyframes tilt { 0%, 100% { transform: none; } 18% { transform: rotate(-11deg); } 48% { transform: rotate(10deg); } 76% { transform: rotate(-4deg); } }
+@keyframes flap-l { from { transform: rotate(0); } to { transform: rotate(16deg); } }
+@keyframes flap-r { from { transform: rotate(0); } to { transform: rotate(-16deg); } }
+@keyframes tongue { 0% { opacity: 1; transform: scaleY(0); } 16%, 82% { opacity: 1; transform: scaleY(1); } 100% { opacity: 1; transform: scaleY(0); } }
 .pack-tags { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 26px; }
 .pack-lede { max-width: 58ch; margin: 18px auto 0; text-align: center; }
 

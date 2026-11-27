@@ -42,7 +42,7 @@
       : 'width="400" height="460"';
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" ${place} role="img" aria-label="stay, a dog, sitting. not moving.">
 <defs><filter id="w${id}" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>
-<g filter="url(#w${id})">
+<g class="dog-all" filter="url(#w${id})">
 <ellipse cx="200" cy="446" rx="150" ry="10" fill="${K.ink}" opacity=".13"/>
 <g class="dog-tail"><path d="M286 428 C 350 432, 376 404, 356 372 C 350 362, 340 366, 344 376 C 354 398, 330 414, 288 410" fill="${K.coat}" ${st()}/></g>
 <path d="M150 250 C 120 300, 95 370, 100 430 C 101 442, 115 446, 130 446 L 270 446 C 285 446, 299 442, 300 430 C 305 370, 280 300, 250 250 Z" fill="${K.coat}" ${st()}/>
@@ -60,9 +60,10 @@
 <path d="M120 150 C 118 95, 160 78, 200 78 C 240 78, 284 95, 280 150 C 278 210, 245 245, 200 245 C 155 245, 122 210, 120 150 Z" fill="${K.coat}" ${st()}/>
 <path d="M214 130 C 222 118, 252 118, 262 134 C 270 150, 262 170, 242 172 C 222 174, 208 150, 214 130 Z" fill="${K.dark}"/>
 <path d="M196 80 C 192 66, 186 62, 178 64 M204 80 C 207 64, 214 59, 222 62" fill="none" ${st(4)}/>
-<path d="M128 104 C 94 104, 78 160, 90 214 C 95 234, 118 230, 124 212 C 130 182, 140 142, 152 112 Z" fill="${K.dark}" ${st()}/>
+<g class="dog-ear-l"><path d="M128 104 C 94 104, 78 160, 90 214 C 95 234, 118 230, 124 212 C 130 182, 140 142, 152 112 Z" fill="${K.dark}" ${st()}/></g>
 <g class="dog-ear-r"><path d="M272 104 C 306 104, 322 160, 310 214 C 305 234, 282 230, 276 212 C 270 182, 260 142, 248 112 Z" fill="${K.dark}" ${st()}/></g>
 <ellipse cx="200" cy="200" rx="46" ry="33" fill="${K.bib}" ${st(4)}/>
+<path class="dog-tongue" opacity="0" d="M189 210 C 186 246, 214 246, 211 210 Z M200 216 L200 234" fill="#e0727a" ${st(4)}/>
 <path d="M183 180 C 183 171, 217 171, 217 180 C 217 190, 207 196, 200 196 C 193 196, 183 190, 183 180 Z" fill="${K.ink}"/>
 <ellipse cx="193" cy="178" rx="5" ry="2.6" fill="#fff" opacity=".7"/>
 <path d="M200 196 L200 206 M184 211 Q200 214 216 211" fill="none" ${st(4)}/>

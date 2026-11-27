@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>stay. brand kit</title>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Courier+Prime:wght@700&family=Reenie+Beanie&display=block" rel="stylesheet">
+<style>html, body { margin: 0; background: #efe5cc; } svg { display: block; }</style>
+</head>
+<body>
+<!-- renders one brand asset at its real size. open with ?a=logo | logo-paper | logo-red | banner -->
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/dog.js"></script>
+<script>
+  const INK = '#1b1915', PAPER = '#efe5cc', CARD = '#f7f0dd', RED = '#c5302a', BLUE = '#1d4b8f', BRASS = '#d1a33a';
+  const a = new URLSearchParams(location.search).get('a') || 'logo';
+
+  // sunburst behind him, like a shop sign
+  function rays(cx, cy, n, r, fill) {
+    let d = '';
+    for (let i = 0; i < n; i++) {
+      const a0 = (i / n) * Math.PI * 2, a1 = ((i + .5) / n) * Math.PI * 2;
+      d += `M${cx} ${cy} L${cx + Math.cos(a0) * r} ${cy + Math.sin(a0) * r} L${cx + Math.cos(a1) * r} ${cy + Math.sin(a1) * r} Z `;
+    }
+    return `<path d="${d}" fill="${fill}"/>`;
+  }
+
+  // a command sign, same as the ones that fall in the hero
+  function sign(x, y, text, rot, bg = CARD, fg = INK, size = 34) {
+    const w = text.length * size * .78 + 36, h = size + 26;
+    return `<g transform="translate(${x} ${y}) rotate(${rot})">
+      <rect x="5" y="6" width="${w}" height="${h}" fill="${INK}"/>
+      <rect width="${w}" height="${h}" fill="${bg}" stroke="${INK}" stroke-width="4"/>
+      <text x="${w / 2}" y="${h / 2 + size * .36}" text-anchor="middle" font-family="'Alfa Slab One'" font-size="${size}" fill="${fg}">${text}</text></g>`;
+  }
+
+  function logo(bg, ray, coat) {
+    // a bust: his head and collar fill the square, body runs off the bottom. circle-crop safe.
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+      <rect width="1000" height="1000" fill="${bg}"/>
+      ${rays(500, 430, 28, 900, ray)}
+      ${dogSVG({ id: 'logo', coat, x: -30, y: -10, h: 1218 })}
+    </svg>`;
+  }
+
+  function banner() {
+    const pack = [['soot', 'side', 820], ['snow', 'lidded', 1090], ['stay', 'stare', 950], ['slate', 'side', 1220], ['ginger', 'stare', 1340]];
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="500" viewBox="0 0 1500 500">
+      <rect width="1500" height="500" fill="${PAPER}"/>
+      ${rays(1110, 470, 40, 1100, '#e8dcbc')}
+      <path d="M0 452 Q 400 448 750 452 T 1500 452" stroke="${INK}" stroke-width="5" fill="none"/>
+      ${Array.from({ length: 75 }, (_, i) => `<path d="M${10 + i * 20} 452 l4 -${12 + (i * 7) % 9} l4 ${12 + (i * 7) % 9}" fill="#5f7a34" stroke="${INK}" stroke-width="2"/>`).join('')}
+      <text x="80" y="150" font-family="'Courier Prime'" font-weight="700" font-size="22" letter-spacing="4" fill="${INK}">THE STAY KENNEL CLUB · <tspan fill="${RED}">ONE COMMAND</tspan></text>
+      <text x="72" y="380" font-family="'Alfa Slab One'" font-size="210" fill="${INK}">STAY<tspan fill="${RED}">.</tspan></text>
+      <text x="1170" y="160" font-family="'Reenie Beanie'" font-size="50" fill="${RED}" transform="rotate(-7 1170 160)">good boy.</text>
+      ${pack.map(([coat, eyes, x]) => {
+        const h = coat === 'stay' ? 400 : 300;
+        return dogSVG({ id: 'b' + coat, coat, eyes, x: x - h * .435, y: 452 - h * 446 / 460, h });
+      }).join('')}
+      ${sign(500, 398, 'SELL.', -5, RED, '#fff4e6')}
+      ${sign(1320, 34, 'PANIC.', 7)}
+      ${sign(700, 66, 'FETCH THE BOTTOM.', -4, BLUE, '#fff4e6', 22)}
+    </svg>`;
+  }
+
+  const make = {
+    logo: () => logo(BLUE, '#24569f'),
+    'logo-paper': () => logo(PAPER, '#e5d7b4'),
+    'logo-red': () => logo(RED, '#cf3a33', 'slate'),
+    banner,
+  };
+  document.body.innerHTML = make[a]();
+</script>
+</body>
+</html>
