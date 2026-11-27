@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the yard / stay.</title>
+<meta name="description" content="make a stay. put your own problem around him, download it, post it.">
+<meta name="theme-color" content="#efe5cc">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/stay.css">
+</head>
+<body data-page="yard">
+<a class="skip" href="#main">skip to the maker</a>
+<header data-header></header>
+
+<main id="main">
+  <section class="phead">
+    <div class="wrap grid">
+      <div>
+        <div class="kicker">meme maker · <b>free</b> · takes a minute</div>
+        <h1>the yard.</h1>
+        <p class="lede">pick what's being shouted at him, write the caption, download the png, post it. he'll stay put the whole time.</p>
+      </div>
+      <p class="pen" style="font-size:36px;margin:0">nothing gets uploaded.<br>it's all drawn on your screen.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap tool">
+      <form id="yard-form" onsubmit="return false">
+        <div class="field"><span class="lbl">1. quick picks</span><div class="choices" id="y-picks"></div></div>
+        <div class="field"><label for="y-cmds">2. what's being shouted (one per line)</label><textarea id="y-cmds" rows="4"></textarea><span class="hint">up to six. short ones look best.</span></div>
+        <div class="field"><label for="y-top">3. top line</label><input id="y-top" type="text" maxlength="60"></div>
+        <div class="field"><label for="y-bot">bottom line</label><input id="y-bot" type="text" maxlength="40"></div>
+        <div class="field"><span class="lbl">4. the yard</span><div class="choices" id="y-bg"></div></div>
+        <div class="field"><span class="lbl">his face</span><div class="choices" id="y-eyes"></div></div>
+        <div class="field"><span class="lbl">weather</span><div class="choices" id="y-props"></div></div>
+        <div class="field"><span class="lbl">stamp</span><div class="choices" id="y-stamp"></div></div>
+        <div class="tags">
+          <button class="tag" type="button" id="y-dl">download png</button>
+          <button class="tag paper" type="button" id="y-post">post on x</button>
+          <button class="tag brass" type="button" id="y-rand">shuffle</button>
+        </div>
+        <p class="status">download first, then attach it to your post. tag it #staying.</p>
+      </form>
+      <div>
+        <div class="preview"><canvas id="yard" width="1080" height="1080"></canvas></div>
+        <p class="fig">fig. 4 — 1080 × 1080. the right size for x.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer data-footer></footer>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/dog.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/yard.js"></script>
+</body>
+</html>

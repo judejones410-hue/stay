@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lost page / stay.</title>
+<meta name="theme-color" content="#efe5cc">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/stay.css">
+<style>
+  .lost { min-height: 100vh; display: grid; place-items: center; padding: 40px var(--gut); }
+  .poster { width: min(560px, 100%); background: #fbf6e8; border: 2px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); transform: rotate(-1.5deg); text-align: center; }
+  .poster .pin { width: 18px; height: 18px; background: var(--red); border-radius: 50%; margin: -9px auto 0; border: 2px solid var(--ink); }
+  .poster h1 { font-size: clamp(64px, 16vw, 120px); padding: 18px 16px 0; }
+  .poster .body { padding: 8px 24px 20px; }
+  .poster .q { font: 700 18px var(--type); margin: 6px 0 16px; }
+  .tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px dashed var(--ink); }
+  .tabs a { writing-mode: vertical-rl; transform: rotate(180deg); padding: 14px 8px; font: 700 13px var(--type); text-decoration: none; border-left: 2px dashed var(--ink); text-align: left; justify-self: stretch; }
+  .tabs a:last-child { border-left: 0; }
+  .tabs a:hover { background: var(--brass); }
+</style>
+</head>
+<body>
+<main class="lost">
+  <div class="poster">
+    <div class="pin"></div>
+    <h1>LOST.</h1>
+    <div class="body">
+      <p class="q">have you seen this page?</p>
+      <p>it wandered off. the dog didn't. he's exactly where you left him.</p>
+      <p class="small muted">answers to: nothing · last seen: somewhere else · reward: one (1) stay.</p>
+    </div>
+    <div class="tabs">
+      <a href="/">home</a><a href="/bowl.html">the bowl</a><a href="/kennel.html">kennel club</a><a href="/manual.html">manual</a>
+    </div>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kennel club / stay.</title>
+<meta name="description" content="the stay kennel club. house rules, roll call, the sit, your pfp and your papers. you're already a member.">
+<meta name="theme-color" content="#efe5cc">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/stay.css">
+</head>
+<body data-page="kennel">
+<a class="skip" href="#main">skip to the club</a>
+<header data-header></header>
+
+<main id="main">
+  <section class="phead">
+    <div class="wrap grid">
+      <div>
+        <div class="kicker">membership: <b>free and automatic</b></div>
+        <h1>kennel<br>club.</h1>
+        <p class="lede">you're already a member. there's nothing to sign up for. one command, one meeting a day, no leads.</p>
+      </div>
+      <div class="record" style="transform:rotate(1.4deg)">
+        <table class="spec" style="margin:0;border:0;background:none">
+          <tr><th>meetings</th><td>18:00 utc, sitting down.</td></tr>
+          <tr><th>requirements</th><td>a floor to sit on.</td></tr>
+          <tr><th>leaving</th><td>go whenever. we'll still say stay. to you.</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec ink">
+    <div class="wrap two">
+      <div>
+        <div class="kicker">01 / the house rules</div>
+        <h2 style="margin:14px 0 18px">six lines.</h2>
+        <p class="pen" style="color:var(--brass);font-size:34px">pinned to the kennel door.</p>
+      </div>
+      <ol class="creed">
+        <li>things will be shouted at you.</li>
+        <li>you will not fetch them.</li>
+        <li>you will not chase them.</li>
+        <li>you will stay.</li>
+        <li>you will get a treat eventually. maybe.</li>
+        <li>you will not bark about it.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="the-command">
+    <div class="wrap two">
+      <div>
+        <div class="kicker">02 / the command</div>
+        <h2 style="margin:14px 0 22px">the sit.</h2>
+        <ol class="drill">
+          <li><div><h3>hear it.</h3><p>sell. panic. come here. oh, that again.</p></div></li>
+          <li><div><h3>sit.</h3><p>bum down, back straight, paws together, look at the camera.</p></div></li>
+          <li><div><h3>stay.</h3><p>don't move until it stops. then don't move a bit longer.</p></div></li>
+        </ol>
+        <p style="margin-top:22px">post yours with <b>#staying</b>. any chair, step or patch of grass counts. a blank face helps.</p>
+        <p class="small muted">sit somewhere safe: not on roads, ledges, platforms or anything that moves. if a real thing is actually coming at you, move. the sit is for candles, mondays and group chats.</p>
+      </div>
+      <div>
+        <div class="record" style="padding-bottom:10px">
+          <div data-dog="stare" style="max-width:300px;margin:0 auto"></div>
+          <p class="pen" style="text-align:center;margin:8px 0 0">correct. paws together. eyes on you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec card" id="pfp">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><div class="num">03 / initiation</div><h2 style="margin-top:12px">wear the collar.</h2></div>
+        <p style="margin:0">set the dog as your pfp. same face, same collar, so nobody can tell us apart, which is the point. then find another one and say stay.</p>
+      </div>
+      <div class="cards" id="pfps"></div>
+      <div class="tags" style="margin-top:26px">
+        <button class="tag" type="button" data-say="stay.">say stay. on x</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="papers">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><div class="num">04 / honor system</div><h2 style="margin-top:12px">your papers.</h2></div>
+        <p style="margin:0">a kennel club registration with your name on it. nobody checks them, so put whatever you like. it's drawn in your browser. nothing is uploaded.</p>
+      </div>
+      <div class="tool">
+        <form id="papers-form" onsubmit="return false">
+          <div class="field"><label for="p-name">registered name</label><input id="p-name" type="text" maxlength="24" value="good boy" autocomplete="off"><span class="hint">up to 24 characters.</span></div>
+          <div class="field"><label for="p-num">registration no.</label><input id="p-num" type="text" maxlength="8" inputmode="numeric" value=""></div>
+          <div class="field"><label for="p-breed">breed</label><input id="p-breed" type="text" maxlength="28" value="unknown. very good though."></div>
+          <div class="field"><span class="lbl">class</span>
+            <div class="choices" id="p-rank">
+              <button type="button" aria-pressed="false">puppy</button>
+              <button type="button" aria-pressed="true">good boy</button>
+              <button type="button" aria-pressed="false">very good boy</button>
+              <button type="button" aria-pressed="false">best in show</button>
+            </div>
+          </div>
+          <div class="field"><label for="p-date">date registered</label><input id="p-date" type="date"></div>
+          <div class="tags">
+            <button class="tag" type="button" id="p-dl">download papers</button>
+            <button class="tag paper" type="button" id="p-post">post on x</button>
+          </div>
+          <p class="status" id="p-status">download first, then attach it to your post. x won't attach it for you.</p>
+        </form>
+        <div class="preview"><canvas id="papers-canvas" width="1200" height="750"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec ink" id="roll-call">
+    <div class="wrap roll">
+      <div>
+        <div class="kicker">05 / every day, same time</div>
+        <h2 style="margin:14px 0 18px">roll call.</h2>
+        <p style="max-width:48ch">the only meeting. ten minutes. everyone posts <b>stay.</b> on x. see a stay, reply stay. no raids, no spam, no other tickers. then carry on. that's <span data-roll-local>18:00 utc</span>.</p>
+        <div class="kicker" style="margin-top:22px">next roll call in</div>
+        <div class="clock" data-roll-clock>--:--:--</div>
+        <div class="tags" style="margin-top:22px">
+          <button class="tag brass" type="button" data-say="stay.">post "stay." on x</button>
+          <button class="tag paper" type="button" data-ics>add to calendar</button>
+        </div>
+      </div>
+      <div class="roll-sheet">
+        <div class="kicker" style="color:var(--ink-2);margin-bottom:8px">register</div>
+        <ol>
+          <li><b>:00</b><span>stay.</span></li>
+          <li><b>:01</b><span>stay.</span></li>
+          <li><b>:02–:09</b><span>stay.</span></li>
+          <li><b>:10</b><span>good. treats are imaginary.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap two">
+      <div>
+        <div class="kicker">06 / greeting rules</div>
+        <h2 style="margin:14px 0 22px">what to<br>say back.</h2>
+        <table class="spec" style="max-width:none">
+          <tr><th>they say</th><td><b>you say</b></td></tr>
+          <tr><th>gm</th><td>stay.</td></tr>
+          <tr><th>wagmi</th><td>stay.</td></tr>
+          <tr><th>"this is the bottom"</th><td>sit.</td></tr>
+          <tr><th>"i got liquidated"</th><td>good boy. stay.</td></tr>
+          <tr><th>"what's the plan"</th><td>stay.</td></tr>
+          <tr><th>"come check out my coin"</th><td>no.</td></tr>
+          <tr><th>a three-paragraph thread</th><td>didn't read. stay.</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3 style="margin-bottom:14px">reply lines.</h3>
+        <p class="small muted">tap one to copy it.</p>
+        <div class="lines" id="lines">
+          <button type="button">stay.</button><button type="button">good boy.</button><button type="button">still sitting.</button>
+          <button type="button">sit.</button><button type="button">didn't fetch it.</button><button type="button">heard you. staying.</button>
+          <button type="button">paws together.</button><button type="button">no.</button><button type="button">roll call. 18:00 utc.</button>
+        </div>
+        <h3 style="margin:34px 0 12px">club manners.</h3>
+        <ul class="prose" style="padding-left:20px;margin:0">
+          <li>"stay." is a greeting, not advice. not to buy, hold or use leverage.</li>
+          <li>no price targets, fake holder numbers or made-up partnerships.</li>
+          <li>ask before reposting someone's art. credit them.</li>
+          <li>nobody here will ever ask for your seed phrase. anyone who does gets blocked.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer data-footer></footer>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/dog.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/kennel.js"></script>
+</body>
+</html>

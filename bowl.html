@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the bowl / stay.</title>
+<meta name="description" content="where $STAY's creator fees go: bought, paired, poured into the pool, lp burned. every receipt public.">
+<meta name="theme-color" content="#efe5cc">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/stay.css">
+</head>
+<body data-page="bowl">
+<a class="skip" href="#main">skip to the bowl</a>
+<header data-header></header>
+
+<main id="main">
+  <section class="phead">
+    <div class="wrap grid">
+      <div>
+        <div class="kicker">the bowl · <b>where the fees go</b></div>
+        <h1>fill the<br>bowl.</h1>
+        <p class="lede">every batch, the keeper claims the creator fees, buys a bit of $STAY, pairs it with sol, pours both into the pool and burns the lp. it never sells $STAY. the receipts are below.</p>
+      </div>
+      <div>
+        <svg id="bowl-art" viewBox="0 0 360 230" role="img" aria-label="a dog bowl. the line inside shows how much the keeper has poured in.">
+          <defs><clipPath id="bowl-in"><path d="M58 92 L302 92 L272 196 L88 196 Z"/></clipPath></defs>
+          <text x="180" y="52" text-anchor="middle" font-family="Alfa Slab One, serif" font-size="40" fill="#1b1915">STAY</text>
+          <g clip-path="url(#bowl-in)">
+            <rect id="bowl-water" x="40" y="196" width="280" height="0" fill="#1d4b8f"/>
+            <path id="bowl-wave" d="M40 196 Q 80 188 120 196 T 200 196 T 280 196 T 360 196" fill="none" stroke="#efe5cc" stroke-width="3" opacity=".6"/>
+          </g>
+          <path d="M40 86 L320 86 L286 204 L74 204 Z" fill="none" stroke="#1b1915" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M40 86 L320 86" stroke="#c5302a" stroke-width="12" stroke-linecap="square"/>
+          <ellipse cx="180" cy="214" rx="140" ry="8" fill="#1b1915" opacity=".14"/>
+        </svg>
+        <p class="fig">fig. 2 — the bowl. <span id="bowl-cap">empty, for now.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><div class="num">01 / the problem</div><h2 style="margin-top:12px">thin bowls.</h2></div>
+        <p style="margin:0">what people actually say about memecoin pools. he can't fix any of it. he can put his fees in the bowl.</p>
+      </div>
+      <div class="cards">
+        <div class="icard"><span class="tab">complaint</span><h3>"40% slippage."</h3><p>the pool was so thin that selling cost almost half.</p></div>
+        <div class="icard"><span class="tab">complaint</span><h3>"lp pulled."</h3><p>the pool was there monday. tuesday it wasn't.</p></div>
+        <div class="icard"><span class="tab">complaint</span><h3>"fees went walkies."</h3><p>the volume was real. the fees went to a wallet nobody watched.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec ink">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><div class="num" style="color:var(--brass)">02 / the drill</div><h2 style="margin-top:12px">how the<br>bowl fills.</h2></div>
+        <p style="margin:0">five steps. a small bot on a server does them on a timer. the code is public, so you can read exactly what it does.</p>
+      </div>
+      <ol class="drill">
+        <li><div><h3>claim the treats.</h3><p>the keeper claims $STAY's creator fees into a wallet only it uses.</p></div></li>
+        <li><div><h3>buy a slice.</h3><p>part of the sol buys $STAY on the pumpswap pool.</p></div></li>
+        <li><div><h3>pair it.</h3><p>the $STAY it bought goes with the sol it didn't spend.</p></div></li>
+        <li><div><h3>pour it in.</h3><p>both go into the $STAY/sol pool as liquidity.</p></div></li>
+        <li><div><h3>burn the receipt.</h3><p>the lp tokens from that add are burned. burned lp can't be redeemed, so nobody can take that liquidity out. us included.</p></div></li>
+      </ol>
+      <div class="two" style="margin-top:40px">
+        <div>
+          <h3 style="margin-bottom:12px;color:var(--brass)">the buried bone.</h3>
+          <p>the keeper keeps 4% of supply in its wallet as a reserve. it never sells it and never pours it in. if the reserve drops under 4%, a quarter of each batch buys back toward it. at 4%, everything goes in the bowl.</p>
+        </div>
+        <div>
+          <h3 style="margin-bottom:12px;color:var(--brass)">the small print, big.</h3>
+          <p>network fees come out first. then the bone, if it needs topping up. then the slice that buys. then the pour. no trades means no fees, and no fees means nothing to pour. if the keeper is down, nothing gets poured either. other people's lp is theirs, not ours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec card" id="live">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><div class="num">03 / live from the bowl</div><h2 style="margin-top:12px">the water.</h2></div>
+        <div>
+          <p style="margin:0 0 10px">reads the keeper's log every two minutes.</p>
+          <p class="small muted" style="margin:0" id="keeper-state">keeper: not running yet. it starts after launch.</p>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="k">fees claimed</div><div class="v" id="t-fees">0 sol</div></div>
+        <div class="stat"><div class="k">sol poured</div><div class="v" id="t-sol">0 sol</div></div>
+        <div class="stat"><div class="k">$STAY poured</div><div class="v" id="t-stay">0</div></div>
+        <div class="stat"><div class="k">lp burned</div><div class="v" id="t-lp">0</div></div>
+      </div>
+      <p class="small" style="margin:16px 0 34px" id="bone-line">buried bone: 0 / 40,000,000 $STAY (0%)</p>
+
+      <div style="display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:14px">
+        <h3>receipts.</h3>
+        <div class="tags">
+          <button class="tag paper" type="button" id="refresh">check again</button>
+          <a class="tag" id="wallet-link" aria-disabled="true">keeper wallet</a>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="receipts">
+          <thead><tr><th>time</th><th>sol</th><th>$STAY</th><th>lp burned</th><th>receipt</th></tr></thead>
+          <tbody id="rows"><tr class="empty"><td colspan="5"><span class="pen" style="font-size:34px">the bowl is empty.</span><br><span class="small muted">no trades yet, so no fees, so nothing to pour. the first add shows up here with its solscan link.</span></td></tr></tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:14px">totals are what the keeper poured in, not the current pool balance. a deeper pool can mean less slippage. it is not a price floor.</p>
+    </div>
+  </section>
+</main>
+
+<footer data-footer></footer>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/dog.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/bowl.js"></script>
+</body>
+</html>
