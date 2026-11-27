@@ -4,11 +4,12 @@
   const page = document.body.dataset.page || '';
   const pages = [
     ['home', 'index.html', '01'],
-    ['the bowl', 'bowl.html', '02'],
-    ['kennel club', 'kennel.html', '03'],
-    ['the yard', 'yard.html', '04'],
-    ['manual', 'manual.html', '05'],
-    ['adopt', 'adopt.html', '06'],
+    ['the wall', 'wall.html', '02'],
+    ['the bowl', 'bowl.html', '03'],
+    ['kennel club', 'kennel.html', '04'],
+    ['the yard', 'yard.html', '05'],
+    ['manual', 'manual.html', '06'],
+    ['adopt', 'adopt.html', '07'],
   ];
 
   const head = document.querySelector('[data-header]');

@@ -97,6 +97,37 @@
     </div>
   </section>
 
+  <section class="sec card" id="pack">
+    <div class="wrap" style="text-align:center">
+      <div class="kicker">the pack · <b>we're in this together</b></div>
+      <h2 style="margin-top:14px">you'll never<br>sit alone.</h2>
+      <p class="pack-lede">nobody here is on their own. every collar on the timeline is one of us. red week, green week, rent week: we sit through it together. see one, say <b>stay.</b> they'll say it back.</p>
+      <svg class="pack-dogs" id="pack-svg" viewBox="0 0 1200 300" role="img" aria-label="nine dogs in different coats, all sitting in a row. tap one and it wags."></svg>
+      <p class="pen" style="margin:8px 0 0;font-size:30px">tap one. they wag.</p>
+      <div class="pack-tags">
+        <a class="tag" href="kennel.html#pfp">wear the collar <span class="arr">→</span></a>
+        <a class="tag paper" href="kennel.html#roll-call">come to roll call</a>
+        <button class="tag brass" type="button" data-say="stay.">say stay. on x</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="noticeboard">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><div class="num">fresh off the noticeboard</div><h2 style="margin-top:12px">the wall.</h2></div>
+        <p style="margin:0">memes, gifs and clips of a dog not moving. pinned up for you to repost. clips play when you press play.</p>
+      </div>
+      <div class="board" data-wall data-limit="9" data-feature></div>
+      <div class="board-links">
+        <a class="tag" href="wall.html">the whole wall <span class="arr">→</span></a>
+        <a class="tag paper" href="wall.html?kind=meme">all the memes</a>
+        <a class="tag paper" href="wall.html?kind=clip">all the clips</a>
+        <a class="tag paper" href="wall.html?kind=gif">all the gifs</a>
+      </div>
+    </div>
+  </section>
+
   <section class="sec ink" id="roll-call">
     <div class="wrap roll">
       <div>
@@ -150,13 +181,16 @@
         <div><div class="num">everything on the site</div><h2 style="margin-top:12px">pick a room.</h2></div>
         <p class="pen" style="margin:0;font-size:34px">he'll be here when you get back.</p>
       </div>
-      <div class="cards">
-        <a class="icard" href="bowl.html"><span class="tab">room 02</span><h3>the bowl.</h3><p>what the keeper is doing with the fees, with every receipt linked on solscan.</p><div class="more">see the bowl <span>→</span></div></a>
-        <a class="icard" href="kennel.html"><span class="tab">room 03</span><h3>kennel club.</h3><p>the house rules, roll call, the sit, your pfp and your registration papers. you're already in.</p><div class="more">go to the club <span>→</span></div></a>
-        <a class="icard" href="yard.html"><span class="tab">room 04</span><h3>the yard.</h3><p>make a stay. put your own problem around him, download it, post it.</p><div class="more">make one <span>→</span></div></a>
-        <a class="icard" href="kennel.html#papers"><span class="tab">room 03b</span><h3>your papers.</h3><p>a kennel club registration with your name on it. nobody checks them.</p><div class="more">get registered <span>→</span></div></a>
-        <a class="icard" href="manual.html"><span class="tab">room 05</span><h3>the manual.</h3><p>the long version. the training manual, the bowl in detail, the faq.</p><div class="more">read the manual <span>→</span></div></a>
-        <a class="icard" href="adopt.html"><span class="tab">room 06</span><h3>adopt.</h3><p>wallet, sol, the real address, swap. five steps. no charts.</p><div class="more">get $STAY <span>→</span></div></a>
+      <div class="rooms">
+        <a class="room" href="wall.html"><span class="no">room 02 · the wall</span><div class="art" data-room-art="wall"></div><h3>the wall.</h3><p>memes, gifs and clips of a dog not moving. free to repost.</p><span class="go">open the wall →</span></a>
+        <a class="room" href="bowl.html"><span class="no">room 03 · the bowl</span><div class="art" data-room-art="bowl"></div><h3>the bowl.</h3><p>the keeper claims fees, buys a slice, pours it in the pool and burns the lp. every receipt on solscan.</p><span class="go">see the bowl →</span></a>
+        <a class="room" href="kennel.html"><span class="no">room 04 · kennel club</span><div class="art" data-room-art="kennel"></div><h3>kennel club.</h3><p>house rules, the sit, roll call and the reply lines. you're already in.</p><span class="go">go to the club →</span></a>
+        <a class="room" href="yard.html"><span class="no">room 05 · the yard</span><div class="art" data-room-art="yard"></div><h3>the yard.</h3><p>put your own problem around him, download it, post it.</p><span class="go">make one →</span></a>
+        <a class="room" href="kennel.html#papers"><span class="no">room 04b · papers</span><div class="art" data-room-art="papers"></div><h3>your papers.</h3><p>a kennel club registration with your name on it. nobody checks them.</p><span class="go">get registered →</span></a>
+        <a class="room" href="manual.html"><span class="no">room 06 · the manual</span><div class="art" data-room-art="manual"></div><h3>the manual.</h3><p>the long version: who he is, the bowl in detail, the faq.</p><span class="go">read the manual →</span></a>
+        <a class="room" href="adopt.html"><span class="no">room 07 · adopt</span><div class="art" data-room-art="adopt"></div><h3>adopt.</h3><p>wallet, sol, the real address, swap. five steps, no charts.</p><span class="go">get $STAY →</span></a>
+        <a class="room" data-link="x"><span class="no">off the lead · x</span><div class="art" data-room-art="x"></div><h3>roll call.</h3><p>18:00 utc every day. everyone posts stay. at once. that's the whole meeting.</p><span class="go"><span data-label>follow on x</span> →</span></a>
+        <a class="room" data-link="github"><span class="no">off the lead · github</span><div class="art" data-room-art="github"></div><h3>the keeper's code.</h3><p>the bot that fills the bowl, out in the open. read exactly what it does.</p><span class="go"><span data-label>read it on github</span> →</span></a>
       </div>
     </div>
   </section>
@@ -167,5 +201,7 @@
 <script src="assets/js/dog.js"></script>
 <script src="assets/js/site.js"></script>
 <script src="assets/js/stage.js"></script>
+<script src="assets/js/wall.js"></script>
+<script src="assets/js/home.js"></script>
 </body>
 </html>

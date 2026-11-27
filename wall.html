@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the wall / stay.</title>
+<meta name="description" content="the stay noticeboard: memes, gifs and clips of a dog not moving. free to repost.">
+<meta name="theme-color" content="#efe5cc">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/stay.css">
+</head>
+<body data-page="wall">
+<a class="skip" href="#main">skip to the wall</a>
+<header data-header></header>
+
+<main id="main">
+  <section class="phead">
+    <div class="wrap grid">
+      <div>
+        <div class="kicker">the noticeboard · <b>free to repost</b></div>
+        <h1>the wall.</h1>
+        <p class="lede">memes, gifs and clips of a dog not moving. screenshot one, post it, tag it <b>#staying</b>. new ones get pinned up as the market finds new things to shout.</p>
+      </div>
+      <div>
+        <p class="pen" style="font-size:34px;margin:0 0 14px">want your own on here?<br>make one in the yard.</p>
+        <a class="tag" href="yard.html">go to the yard <span class="arr">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="border-bottom:0">
+    <div class="wrap">
+      <div class="field" style="margin-bottom:26px"><span class="lbl">show</span>
+        <div class="choices" id="wall-filter">
+          <button type="button" data-k="" aria-pressed="true">everything</button>
+          <button type="button" data-k="meme" aria-pressed="false">memes</button>
+          <button type="button" data-k="clip" aria-pressed="false">clips</button>
+          <button type="button" data-k="gif" aria-pressed="false">gifs</button>
+        </div>
+      </div>
+      <div class="board" id="wall-board" data-wall></div>
+    </div>
+  </section>
+</main>
+
+<footer data-footer></footer>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/dog.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/wall.js"></script>
+<script>
+  (function () {
+    const board = document.getElementById('wall-board');
+    const btns = document.querySelectorAll('#wall-filter button');
+    function show(k) {
+      board.querySelectorAll('.pin').forEach((p) => { p.hidden = !!k && p.dataset.kind !== k; });
+      btns.forEach((b) => b.setAttribute('aria-pressed', b.dataset.k === k));
+    }
+    btns.forEach((b) => b.addEventListener('click', () => {
+      show(b.dataset.k);
+      history.replaceState(null, '', b.dataset.k ? '?kind=' + b.dataset.k : location.pathname);
+    }));
+    show(new URLSearchParams(location.search).get('kind') || '');
+  })();
+</script>
+</body>
+</html>
